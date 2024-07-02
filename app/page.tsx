@@ -6,7 +6,7 @@ import images from '../constants/images';
 
 export default function Home() {
   return (
-    <div className="bg-[#0D0D0F] ">
+    <div className="bg-[#0D0D0F] text-white">
       <header className="px-[50px] md:px-[100px] py-[10px] fixed w-screen">
         <div className="flex items-center justify-between">
           <Image src={images.Logo3} alt="Logo1" className="h-[50px] w-auto" />
