@@ -1,12 +1,12 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import './globals.css';
+import type { Metadata } from "next";
+import { Roboto } from 'next/font/google'
+import "./globals.css";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Roboto({ weight:["300", "400", "400"], subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'SafeCeylon',
-  description: 'Revolutionizing Disaster Management and Safety.',
+  title: "SafeCylon",
+  description: "Revolutionizing Disaster Management and Safety.",
 };
 
 export default function RootLayout({
