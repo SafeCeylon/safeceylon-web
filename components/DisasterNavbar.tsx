@@ -1,23 +1,28 @@
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import images from '../constants/images';
 import SearchBar from './SearchBar';
 
-export default function DisasterNavbar() {
+interface DisasterNavbarProps {
+  active: string;
+}
+
+const DisasterNavbar: React.FC<DisasterNavbarProps> =  ({ active }) => {
   return (
     <header className="px-[50px] md:px-[100px] py-[10px]">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-10">
           <Image src={images.Logo4} alt="Logo1" className="h-[30px] w-auto" />
           <div className="flex gap-5 tracking-wide">
-            <Link href={'#'} className="font-light text-active">
+            <Link href={'/'} className={`font-light ${active == "dashboard" ? "text-active" : "text-white"}`}>
               Dashboard
             </Link>
-            <Link href={'#'} className="text-white font-light">
+            <Link href={'./disasterLocations'} className={`font-light ${active == "disasterLocations" ? "text-active" : "text-white"}`}>
               Disaster Locations
             </Link>
-            <Link href={'#'} className="text-white font-light">
+            <Link href={'/shelters'} className={`font-light ${active == "shelters" ? "text-active" : "text-white"}`}>
               Shelters / Hospitals
             </Link>
           </div>
@@ -72,13 +77,13 @@ export default function DisasterNavbar() {
           </h4>
         </div>
         <div className="flex gap-5 tracking-wide">
-          <Link href={'#'} className="text-white font-light">
+          <Link href={'#'} className={`font-light ${active ? "text-active" : "text-white"}`}>
             Disaster Predictions
           </Link>
-          <Link href={'#'} className="text-white font-light">
+          <Link href={'#'} className={`font-light ${active ? "text-active" : "text-white"}`}>
             Disaster Victims
           </Link>
-          <Link href={'#'} className="text-white font-light">
+          <Link href={'#'} className={`font-light ${active ? "text-active" : "text-white"}`}>
             Officer Details
           </Link>
         </div>
@@ -86,3 +91,6 @@ export default function DisasterNavbar() {
     </header>
   );
 }
+
+
+export default DisasterNavbar;
