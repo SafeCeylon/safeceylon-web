@@ -67,3 +67,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+body {
+  background-color: #fff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.bg-primary {
+  background-image: url(../public/assets/primaryBG.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #151515;
+}
+
+.text-active {
+  color: #ff9900;
+  font-weight: 500;
+}
