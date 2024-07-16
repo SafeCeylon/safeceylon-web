@@ -86,7 +86,7 @@ export default function DisasterNavbar() {
       <div className="mt-[30px] flex gap-[200px]">
         <div className="flex flex-col gap-1">
           <h3 className="text-white font-medium text-xl tracking-wider">
-            Disaster Management Department,{' '}
+            Disaster Management Center,{' '}
             <span className="text-[#ff9900]">Sri Lanka</span>
           </h3>
           <h4 className="text-white font-extralight tracking-wide ">
