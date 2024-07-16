@@ -6,7 +6,7 @@ const Login = () => {
   return (
     <main
       style={{ height: '100vh' }}
-      className="h-full bg-pageBg bg-cover bg-center bg- bg-no-repeat flex items-center flex-col"
+      className="bg-primary h-screen bg-top bg-no-repeat flex items-center flex-col"
     >
       <div className="flex justify-start items-center pl-10 pb-10 mt-5">
         <Image src={logo} alt="logo" className="w-1/12" />
@@ -25,7 +25,7 @@ const Login = () => {
 
           <label className="mt-10">Password</label>
           <input
-            type="email"
+            type="password"
             placeholder="Enter your password"
             className="input input-bordered "
           />
