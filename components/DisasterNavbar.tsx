@@ -30,11 +30,11 @@ export default function DisasterNavbar() {
         <div className="flex items-center gap-10">
           <Image src={images.Logo4} alt="Logo1" className="h-[30px] w-auto" />
           <div className="flex gap-5 tracking-wide">
-            <Link href={'#'} className={`text-white font-light ${pathname == "admin" ? "text-active":""}`}>
+            <Link href={'../disaster/admin/'} className={`text-white font-light ${pathname == "admin" ? "text-active":""}`}>
               Dashboard
             </Link>
             <Link 
-            href={'#'} 
+            href={'../disaster/disaster-locations/'} 
             className={`text-white font-light ${pathname == "disaster-locations" ? "text-active":""}`}
             >
               Disaster Locations
