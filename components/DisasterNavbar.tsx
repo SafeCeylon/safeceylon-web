@@ -97,7 +97,7 @@ export default function DisasterNavbar() {
           <Link href={'../disaster/disaster-predictions/'} className={`text-white font-light ${pathname == "disaster-predictions" ? "text-active":""}`}>
             Disaster Predictions
           </Link>
-          <Link href={'#'} className={`text-white font-light ${pathname == "disaster-victims" ? "text-active":""}`}>
+          <Link href={'../disaster/disaster-victims/'} className={`text-white font-light ${pathname == "disaster-victims" ? "text-active":""}`}>
             Disaster Victims
           </Link>
           <Link href={'#'} className={`text-white font-light ${pathname == "officer-details" ? "text-active":""}`}>
