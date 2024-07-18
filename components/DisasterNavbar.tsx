@@ -39,7 +39,7 @@ export default function DisasterNavbar() {
             >
               Disaster Locations
             </Link>
-            <Link href={'#'} className="text-white font-light">
+            <Link href={'../disaster/shelters-hospitals/'} className={`text-white font-light ${pathname == "shelters-hospitals" ? "text-active":""}`}>
               Shelters / Hospitals
             </Link>
           </div>
