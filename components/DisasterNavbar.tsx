@@ -1,20 +1,42 @@
+'use client'
 import Image from 'next/image';
 import Link from 'next/link';
 
 import images from '../constants/images';
 import SearchBar from './SearchBar';
+import { usePathname } from 'next/navigation';
+import { log } from 'console';
 
 export default function DisasterNavbar() {
+  const pathname = usePathname().slice(10);
+  // console.log(pathname)
+
+  const getPageTitle = (path: any) => {
+    switch (path) {
+      case 'admin':
+        return 'Admin Dashboard';
+      case 'disaster-locations':
+        return 'Disaster Locations';
+      case 'shelters-hospitals':
+        return 'Shelters / Hospitals';
+      default:
+        return 'Dashboard';
+    }
+  };
+
   return (
     <header className="px-[50px] md:px-[100px] py-[10px]">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-10">
           <Image src={images.Logo4} alt="Logo1" className="h-[30px] w-auto" />
           <div className="flex gap-5 tracking-wide">
-            <Link href={'#'} className="font-light text-active">
+            <Link href={'../disaster/admin/'} className={`text-white font-light ${pathname == "admin" ? "text-active":""}`}>
               Dashboard
             </Link>
-            <Link href={'#'} className="text-white font-light">
+            <Link 
+            href={'../disaster/disaster-locations/'} 
+            className={`text-white font-light ${pathname == "disaster-locations" ? "text-active":""}`}
+            >
               Disaster Locations
             </Link>
             <Link href={'#'} className="text-white font-light">
@@ -64,11 +86,11 @@ export default function DisasterNavbar() {
       <div className="mt-[30px] flex gap-[200px]">
         <div className="flex flex-col gap-1">
           <h3 className="text-white font-medium text-xl tracking-wider">
-            Meteorology Department,{' '}
+            Disaster Management Center,{' '}
             <span className="text-[#ff9900]">Sri Lanka</span>
           </h3>
           <h4 className="text-white font-extralight tracking-wide ">
-            Dashboard
+            {getPageTitle(pathname)}
           </h4>
         </div>
         <div className="flex gap-5 tracking-wide">
