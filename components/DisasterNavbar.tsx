@@ -94,7 +94,7 @@ export default function DisasterNavbar() {
           </h4>
         </div>
         <div className="flex gap-20 tracking-wide">
-          <Link href={'../disaster/admin/'} className={`text-white font-light ${pathname == "disaster-predictions" ? "text-active":""}`}>
+          <Link href={'../disaster/disaster-predictions/'} className={`text-white font-light ${pathname == "disaster-predictions" ? "text-active":""}`}>
             Disaster Predictions
           </Link>
           <Link href={'#'} className={`text-white font-light ${pathname == "disaster-victims" ? "text-active":""}`}>
