@@ -37,12 +37,16 @@ export default function Admin() {
                   <SelectItem value="system">User Repors</SelectItem>
                 </SelectContent>
               </Select>
+              
 
 
             </div>
-            <div className="w-full flex-grow">
+
+            <div className="h-[665px]" >
               <GoogleMaps />
             </div>
+
+
           </div>
         </div>
       </div>

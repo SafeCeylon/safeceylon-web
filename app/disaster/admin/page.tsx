@@ -1,5 +1,8 @@
+'use client'
+
 import DisasterNavbar from "@/components/DisasterNavbar";
 import RequestCard from "@/components/RequestCard";
+import GoogleMaps from "@/components/GoogleMaps";
 
 export default function Admin() {
   return (
@@ -19,7 +22,9 @@ export default function Admin() {
             <div className="text-black flex flex-col bg-white w-1/2 items-center h-full rounded-2xl"></div>
           </div>
 
-          <div className="w-full bg-white h-2/3 rounded-2xl"></div>
+          <div className="w-full bg-white h-2/3 rounded-2xl">
+            <GoogleMaps />
+          </div>
         </div>
         <div className="w-1/3 h-full flex flex-col gap-14">
           <div className="text-black flex flex-col bg-white w-full items-center h-1/4 rounded-2xl"></div>

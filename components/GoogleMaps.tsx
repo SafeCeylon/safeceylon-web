@@ -50,8 +50,7 @@ export default function GoogleMaps() {
     }, []);
 
   return (
-    <div>
-      <h1 className='h-[650px]' ref={mapRef}>Google Maps ...</h1>
+    <div className='h-full rounded-2xl' ref={mapRef} >
     </div>
   )
 }
