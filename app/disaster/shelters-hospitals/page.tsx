@@ -15,7 +15,8 @@ import GoogleMaps from "@/components/GoogleMaps";
 
 import Link from 'next/link';
 
-
+import Image from 'next/image';
+import add_icon from '@/public/assets/add_icon.svg';
 
 export default function Admin() {
   return (
@@ -27,12 +28,14 @@ export default function Admin() {
             <div className="w-full h-20 flex-shrink-0 flex flex-row">
             
               <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-500">
+                <Image src={add_icon} alt="Logo1" className="h-[18px] w-auto pr-2" />
                 <Link href="/add-shelter">
                   Add Shelter
                 </Link>
               </Button>
 
               <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-500">
+                <Image src={add_icon} alt="Logo1" className="h-[18px] w-auto pr-2" />
                 <Link href="/add-hospital">
                   Add Hospital
                 </Link>

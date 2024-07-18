@@ -1,7 +1,6 @@
 'use client'
 
 import DisasterNavbar from "@/components/DisasterNavbar";
-import RequestCard from "@/components/RequestCard";
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -13,7 +12,8 @@ import {
 
 import GoogleMaps from "@/components/GoogleMaps";
 
-
+import Image from 'next/image';
+import add_icon from '@/public/assets/add_icon.svg';
 
 export default function Admin() {
   return (
@@ -24,6 +24,7 @@ export default function Admin() {
           <div className="w-full bg-white h-full rounded-2xl p-5 pt-2">
             <div className="w-full h-20 flex-shrink-0 flex flex-row justify-between">
               <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-500">
+                <Image src={add_icon} alt="Logo1" className="h-[18px] w-auto pr-2" />
                 Add Disaster Location
               </Button>
 
