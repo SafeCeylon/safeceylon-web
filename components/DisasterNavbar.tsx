@@ -83,7 +83,7 @@ export default function DisasterNavbar() {
           </div>
         </div>
       </div>
-      <div className="mt-[30px] flex gap-[200px]">
+      <div className="mt-[30px] flex justify-between">
         <div className="flex flex-col gap-1">
           <h3 className="text-white font-medium text-xl tracking-wider">
             Disaster Management Center,{' '}
@@ -93,14 +93,14 @@ export default function DisasterNavbar() {
             {getPageTitle(pathname)}
           </h4>
         </div>
-        <div className="flex gap-5 tracking-wide">
-          <Link href={'#'} className="text-white font-light">
+        <div className="flex gap-20 tracking-wide">
+          <Link href={'../disaster/admin/'} className={`text-white font-light ${pathname == "disaster-predictions" ? "text-active":""}`}>
             Disaster Predictions
           </Link>
-          <Link href={'#'} className="text-white font-light">
+          <Link href={'#'} className={`text-white font-light ${pathname == "disaster-victims" ? "text-active":""}`}>
             Disaster Victims
           </Link>
-          <Link href={'#'} className="text-white font-light">
+          <Link href={'#'} className={`text-white font-light ${pathname == "officer-details" ? "text-active":""}`}>
             Officer Details
           </Link>
         </div>

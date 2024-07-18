@@ -1,7 +1,7 @@
 export default function SearchBar() {
   return (
     <div className="flex items-center justify-center text-white">
-      <div className="flex gap-2">
+      <div className="flex gap-5">
         <div className="flex items-center px-[10px] bg-[#ffffff20] rounded-lg">
           <svg
             xmlns="http://www.w3.org/2000/svg"
