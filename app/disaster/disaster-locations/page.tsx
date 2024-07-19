@@ -23,13 +23,13 @@ export default function Admin() {
         <div className="flex flex-col w-full gap-14 h-full">
           <div className="w-full bg-white h-full rounded-2xl p-5 pt-2">
             <div className="w-full h-20 flex-shrink-0 flex flex-row justify-between">
-              <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-500">
+              <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-400">
                 <Image src={add_icon} alt="Logo1" className="h-[18px] w-auto pr-2" />
                 Add Disaster Location
               </Button>
 
               <Select>
-                <SelectTrigger className="w-[180px] mt-4 mr-4 rounded-full shadow-md shadow-gray-500">
+                <SelectTrigger className="w-[180px] mt-4 mr-4 rounded-full shadow-md shadow-gray-400">
                   <SelectValue placeholder="User Repors" />
                 </SelectTrigger>
                 <SelectContent>

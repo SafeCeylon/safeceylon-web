@@ -56,16 +56,16 @@ export default function Admin() {
 
           <div className="w-full flex flex-row gap-10 p-10 pb-0 h-1/4">
             
-          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-500"></div>
-          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-500"></div>
-          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-500"></div>
+          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-400"></div>
+          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-400"></div>
+          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-400"></div>
 
           </div>
 
           <div className="w-full flex gap-10 p-10 pb-20 pt-0 h-3/4">
             <div className="w-1/2 h-full flex flex-row ">
 
-              <div className="w-full flex flex-row bg-white h-full rounded-2xl shadow-md shadow-gray-500 mb-10">
+              <div className="w-full flex flex-row bg-white h-full rounded-2xl shadow-md shadow-gray-400 mb-10">
                 <div className="w-3/5 h-full bg-white rounded-2xl">
 
                 <Card className="flex flex-col shadow-none border-none pt-5">
@@ -105,7 +105,7 @@ export default function Admin() {
 
             </div>
             <div className="flex flex-col w-1/2 gap-14 h-full">
-              <div className="w-full bg-white h-full rounded-2xl shadow-md shadow-gray-500 ">
+              <div className="w-full bg-white h-full rounded-2xl shadow-md shadow-gray-400 ">
                 <GoogleMaps />
               </div>
             </div>

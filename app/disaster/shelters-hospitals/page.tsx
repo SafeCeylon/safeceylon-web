@@ -27,14 +27,14 @@ export default function Admin() {
           <div className="w-full bg-white h-full rounded-2xl p-5 pt-2">
             <div className="w-full h-20 flex-shrink-0 flex flex-row">
             
-              <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-500">
+              <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-400">
                 <Image src={add_icon} alt="Logo1" className="h-[18px] w-auto pr-2" />
                 <Link href="/add-shelter">
                   Add Shelter
                 </Link>
               </Button>
 
-              <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-500">
+              <Button variant="outline" className="mt-4 ml-4 rounded-full shadow-md shadow-gray-400">
                 <Image src={add_icon} alt="Logo1" className="h-[18px] w-auto pr-2" />
                 <Link href="/add-hospital">
                   Add Hospital
