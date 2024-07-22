@@ -11,7 +11,7 @@ export default function Home() {
         <div className="flex items-center justify-between">
           <Image src={images.Logo3} alt="Logo1" className="h-[50px] w-auto" />
           <div>
-            <Link href={'#'}>Login</Link>
+            <Link href={'./login/'}>Login</Link>
           </div>
         </div>
       </header>
