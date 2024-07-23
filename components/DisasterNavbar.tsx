@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -6,6 +6,7 @@ import images from '../constants/images';
 import SearchBar from './SearchBar';
 import { usePathname } from 'next/navigation';
 import { log } from 'console';
+import { UserButton } from './auth/user-button';
 
 export default function DisasterNavbar() {
   const pathname = usePathname().slice(10);
@@ -30,16 +31,28 @@ export default function DisasterNavbar() {
         <div className="flex items-center gap-10">
           <Image src={images.Logo4} alt="Logo1" className="h-[30px] w-auto" />
           <div className="flex gap-5 tracking-wide">
-            <Link href={'../disaster/admin/'} className={`text-white font-light ${pathname == "admin" ? "text-active":""}`}>
+            <Link
+              href={'../disaster/admin/'}
+              className={`text-white font-light ${
+                pathname == 'admin' ? 'text-active' : ''
+              }`}
+            >
               Dashboard
             </Link>
-            <Link 
-            href={'../disaster/disaster-locations/'} 
-            className={`text-white font-light ${pathname == "disaster-locations" ? "text-active":""}`}
+            <Link
+              href={'../disaster/disaster-locations/'}
+              className={`text-white font-light ${
+                pathname == 'disaster-locations' ? 'text-active' : ''
+              }`}
             >
               Disaster Locations
             </Link>
-            <Link href={'../disaster/shelters-hospitals/'} className={`text-white font-light ${pathname == "shelters-hospitals" ? "text-active":""}`}>
+            <Link
+              href={'../disaster/shelters-hospitals/'}
+              className={`text-white font-light ${
+                pathname == 'shelters-hospitals' ? 'text-active' : ''
+              }`}
+            >
               Shelters / Hospitals
             </Link>
           </div>
@@ -75,11 +88,7 @@ export default function DisasterNavbar() {
                 d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
               />
             </svg>
-            <Image
-              src={images.DisasterProfile}
-              alt="Profile"
-              className="h-[40px] w-[40px]"
-            />
+            <UserButton />
           </div>
         </div>
       </div>
@@ -94,13 +103,28 @@ export default function DisasterNavbar() {
           </h4>
         </div>
         <div className="flex gap-20 tracking-wide">
-          <Link href={'../disaster/admin/'} className={`text-white font-light ${pathname == "disaster-predictions" ? "text-active":""}`}>
+          <Link
+            href={'../disaster/disaster-predictions/'}
+            className={`text-white font-light ${
+              pathname == 'disaster-predictions' ? 'text-active' : ''
+            }`}
+          >
             Disaster Predictions
           </Link>
-          <Link href={'#'} className={`text-white font-light ${pathname == "disaster-victims" ? "text-active":""}`}>
+          <Link
+            href={'../disaster/disaster-victims/'}
+            className={`text-white font-light ${
+              pathname == 'disaster-victims' ? 'text-active' : ''
+            }`}
+          >
             Disaster Victims
           </Link>
-          <Link href={'#'} className={`text-white font-light ${pathname == "officer-details" ? "text-active":""}`}>
+          <Link
+            href={'#'}
+            className={`text-white font-light ${
+              pathname == 'officer-details' ? 'text-active' : ''
+            }`}
+          >
             Officer Details
           </Link>
         </div>
