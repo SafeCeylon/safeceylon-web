@@ -1,6 +1,5 @@
 'use client';
 
-import DisasterNavbar from '@/components/DisasterNavbar';
 import RequestCard from '@/components/RequestCard';
 import GoogleMaps from '@/components/GoogleMaps';
 

@@ -18,6 +18,10 @@ datasource db {
 enum UserRole {
   USER
   ADMIN
+  DISASTER_ADMIN
+  DISASTER_OFFICER
+  METEOROLOGY_ADMIN
+  METEOROLOGY_OFFICER
 }
 
 model User {
