@@ -1,21 +1,32 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import { Poppins } from 'next/font/google';
 
-import LandingSection from '../components/LandingSection';
-import images from '../constants/images';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { LoginButton } from '@/components/auth/login-button';
+
+const font = Poppins({ subsets: ['latin'], weight: ['600'] });
 
 export default function Home() {
   return (
-    <div className="bg-[#0D0D0F] text-white">
-      <header className="px-[50px] md:px-[100px] py-[10px] fixed w-screen">
-        <div className="flex items-center justify-between">
-          <Image src={images.Logo3} alt="Logo1" className="h-[50px] w-auto" />
-          <div>
-            <Link href={'./login/'}>Login</Link>
-          </div>
+    <main className="flex h-full flex-col items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800">
+      <div className="space-y-6 text-center">
+        <h1
+          className={cn(
+            'text-6xl font-semibold text-white drop-shadow-md',
+            font.className,
+          )}
+        >
+          Auth
+        </h1>
+        <p>A simple authentication Service.</p>
+        <div>
+          <LoginButton>
+            <Button variant="secondary" size="lg">
+              Sign In
+            </Button>
+          </LoginButton>
         </div>
-      </header>
-      <LandingSection />
-    </div>
+      </div>
+    </main>
   );
 }
