@@ -1,4 +1,6 @@
-import DisasterNavbar from '@/components/DisasterNavbar';
+import { RoleGate } from '@/components/auth/role-gate';
+import MeteorologyNavbar from '@/components/MeteorologyNavbar';
+import { UserRole } from '@prisma/client';
 
 interface ProtectedLayoutProps {
   children: React.ReactNode;
@@ -6,10 +8,14 @@ interface ProtectedLayoutProps {
 
 const DisasterLayout = ({ children }: ProtectedLayoutProps) => {
   return (
-    <div className="bg-primary h-screen w-full">
-      <DisasterNavbar />
-      {children}
-    </div>
+    <RoleGate
+      allowedRole={[UserRole.METEOROLOGY_ADMIN, UserRole.METEOROLOGY_OFFICER]}
+    >
+      <div className="bg-primary h-screen w-full">
+        <MeteorologyNavbar />
+        {children}
+      </div>
+    </RoleGate>
   );
 };
 

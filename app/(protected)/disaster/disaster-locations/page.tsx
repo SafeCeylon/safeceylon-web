@@ -1,6 +1,5 @@
 'use client';
 
-import DisasterNavbar from '@/components/DisasterNavbar';
 import { Button } from '@/components/ui/button';
 import {
   Select,

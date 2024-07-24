@@ -1,7 +1,5 @@
 'use client';
-
-import { FaUser } from 'react-icons/fa';
-import { ExitIcon } from '@radix-ui/react-icons';
+import { ExitIcon, GearIcon, PersonIcon } from '@radix-ui/react-icons';
 
 import {
   DropdownMenu,
@@ -13,6 +11,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { LogoutButton } from './logout-button';
+import { SettingsButton } from '../settings-button';
 
 export const UserButton = () => {
   const user = useCurrentUser();
@@ -23,7 +22,7 @@ export const UserButton = () => {
         <Avatar>
           <AvatarImage src={user?.image || ''} />
           <AvatarFallback className="bg-sky-500">
-            <FaUser className="text-white" />
+            <PersonIcon className="text-white w-5 h-5" />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -32,9 +31,15 @@ export const UserButton = () => {
         className="w-40 bg-white px-4 py-2 rounded-md"
         align="end"
       >
+        <SettingsButton>
+          <DropdownMenuItem className="flex items-center text-black text-[15px] my-2">
+            <GearIcon className="w-5 h-5 mr-2" />
+            Settings
+          </DropdownMenuItem>
+        </SettingsButton>
         <LogoutButton>
-          <DropdownMenuItem className="flex items-center text-black">
-            <ExitIcon className="w-4 mr-2" />
+          <DropdownMenuItem className="flex items-center text-black text-[15px] mb-2">
+            <ExitIcon className="w-5 h-5 mr-2" />
             Logout
           </DropdownMenuItem>
         </LogoutButton>

@@ -6,13 +6,13 @@ import { FormError } from '@/components/form-error';
 
 interface RoleGateProps {
   children: React.ReactNode;
-  allowedRole: UserRole;
+  allowedRole: UserRole[];
 }
 
 export const RoleGate = ({ children, allowedRole }: RoleGateProps) => {
   const role = useCurrentRole();
 
-  if (role !== allowedRole) {
+  if (role && !allowedRole.includes(role)) {
     return (
       <FormError message="Your do not have permission to view this content" />
     );
