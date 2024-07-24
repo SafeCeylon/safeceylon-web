@@ -1,4 +1,7 @@
 import exp from 'constants';
+import { UserRole } from '@prisma/client';
+
+import { getCurrentUserRole } from './utils/auth';
 
 /**
  * An array of routes that are accessible to the public.
@@ -28,8 +31,35 @@ export const authRoutes = [
 export const apiAuthPrefix = '/api/auth';
 
 /**
- * The default redirect path after loggin in.
+ * The default redirect path after logging in.
  * @type {string}
  */
 
-export const DEFAULT_LOGIN_REDIRECT = '/disaster/dashboard';
+// let path = '';
+
+// async function GetDefaultLoginRedirect() {
+//   const userRole = await getCurrentUserRole();
+
+//   if (
+//     userRole === UserRole.DISASTER_ADMIN ||
+//     userRole === UserRole.DISASTER_OFFICER
+//   ) {
+//     path = `/disaster/dashboard`;
+//   } else if (
+//     userRole === UserRole.METEOROLOGY_ADMIN ||
+//     userRole === UserRole.METEOROLOGY_OFFICER
+//   ) {
+//     path = `/meteorology/dashboard`;
+//   } else if (userRole === UserRole.ADMIN) {
+//     path = `/admin/dashboard`;
+//   }
+// }
+
+// GetDefaultLoginRedirect();
+
+/**
+ * The default redirect path after logging out.
+ * @type {string}
+ */
+
+export const DEFAULT_LOGIN_REDIRECT = '/settings';

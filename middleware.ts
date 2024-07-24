@@ -35,11 +35,13 @@ export default auth((req) => {
       callBackUrl += nextUrl.search;
     }
 
-    const encodedCallbackUrl = encodeURIComponent(callBackUrl);
+    // const encodedCallbackUrl = encodeURIComponent(callBackUrl);
 
-    return NextResponse.redirect(
-      new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl),
-    );
+    // return NextResponse.redirect(
+    //   new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl),
+    // );
+
+    return NextResponse.redirect(new URL(`/login`, nextUrl));
   }
 
   return NextResponse.next();

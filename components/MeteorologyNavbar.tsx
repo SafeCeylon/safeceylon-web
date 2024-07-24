@@ -9,21 +9,15 @@ import { log } from 'console';
 import { UserButton } from './auth/user-button';
 
 export default function DisasterNavbar() {
-  const pathname = usePathname().slice(10);
+  const pathname = usePathname().slice(13);
   // console.log(pathname)
 
   const getPageTitle = (path: any) => {
     switch (path) {
       case 'dashboard':
         return 'Dashboard';
-      case 'disaster-locations':
-        return 'Disaster Locations';
-      case 'shelters-hospitals':
-        return 'Shelters / Hospitals';
-      case 'disaster-predictions':
-        return 'Disaster Predictions';
-      case 'disaster-victims':
-        return 'Disaster Victims';
+      case 'weather-forecasts':
+        return 'Weather Forecasts';
       case 'officer-details':
         return 'Officer Details';
       default:
@@ -38,7 +32,7 @@ export default function DisasterNavbar() {
           <Image src={images.Logo4} alt="Logo1" className="h-[30px] w-auto" />
           <div className="flex gap-5 tracking-wide">
             <Link
-              href={'../disaster/dashboard/'}
+              href={'../meteorology/dashboard/'}
               className={`text-white font-light ${
                 pathname == 'dashboard' ? 'text-active' : ''
               }`}
@@ -46,20 +40,20 @@ export default function DisasterNavbar() {
               Dashboard
             </Link>
             <Link
-              href={'../disaster/disaster-locations/'}
+              href={'../meteorology/weather-forecasts/'}
               className={`text-white font-light ${
-                pathname == 'disaster-locations' ? 'text-active' : ''
+                pathname == 'weather-forecasts' ? 'text-active' : ''
               }`}
             >
-              Disaster Locations
+              Weather Forecasts
             </Link>
             <Link
-              href={'../disaster/shelters-hospitals/'}
+              href={'../meteorology/officer-details/'}
               className={`text-white font-light ${
-                pathname == 'shelters-hospitals' ? 'text-active' : ''
+                pathname == 'officer-details' ? 'text-active' : ''
               }`}
             >
-              Shelters / Hospitals
+              Officer Details
             </Link>
           </div>
         </div>
@@ -98,41 +92,15 @@ export default function DisasterNavbar() {
           </div>
         </div>
       </div>
-      <div className="mt-[30px] flex justify-between">
+      <div className="mt-[30px] flex justify-start">
         <div className="flex flex-col gap-1">
           <h3 className="text-white font-medium text-xl tracking-wider">
-            Disaster Management Center,{' '}
+            Meteorology Department,{' '}
             <span className="text-[#ff9900]">Sri Lanka</span>
           </h3>
           <h4 className="text-white font-extralight tracking-wide ">
             {getPageTitle(pathname)}
           </h4>
-        </div>
-        <div className="flex gap-20 tracking-wide">
-          <Link
-            href={'../disaster/disaster-predictions/'}
-            className={`text-white font-light ${
-              pathname == 'disaster-predictions' ? 'text-active' : ''
-            }`}
-          >
-            Disaster Predictions
-          </Link>
-          <Link
-            href={'../disaster/disaster-victims/'}
-            className={`text-white font-light ${
-              pathname == 'disaster-victims' ? 'text-active' : ''
-            }`}
-          >
-            Disaster Victims
-          </Link>
-          <Link
-            href={'#'}
-            className={`text-white font-light ${
-              pathname == 'officer-details' ? 'text-active' : ''
-            }`}
-          >
-            Officer Details
-          </Link>
         </div>
       </div>
     </header>
