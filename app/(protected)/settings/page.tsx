@@ -73,9 +73,9 @@ const SettingsPage = () => {
   return (
     <div className="bg-primary w-full h-screen ">
       {(user?.role === UserRole.DISASTER_ADMIN ||
-        user?.role === UserRole.DISASTER_OFFICER) && <DisasterNavbar />}
+        user?.role === UserRole.DISASTER_OFFICER || user?.role === UserRole.USER) && <DisasterNavbar />}
       {(user?.role === UserRole.METEOROLOGY_ADMIN ||
-        user?.role === UserRole.METEOROLOGY_OFFICER) && <MeteorologyNavbar />}
+        user?.role === UserRole.METEOROLOGY_OFFICER ) && <MeteorologyNavbar />}
 
       <div className="w-full flex justify-center mt-5">
         <Card className="w-[600px] mt-5">
