@@ -90,3 +90,24 @@ body,
   color: #ff9900;
   font-weight: 500;
 }
+
+.bg-ToReply {
+  background-image: url(../public/assets/to_reply_bg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #151515;
+}
+
+.bg-Replied {
+  background-image: url(../public/assets/replied_bg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #151515;
+}
+
+.bg-Closed {
+  background-image: url(../public/assets/closed_bg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #151515;
+}

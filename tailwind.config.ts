@@ -1,3 +1,4 @@
+import { Progress } from "@radix-ui/react-progress"
 import type { Config } from "tailwindcss"
 
 const config = {
@@ -24,6 +25,10 @@ const config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        bg_progress: "#D8D8D8",
+        progress_color_1: "#6CE5E8",
+        progress_color_2: "#41B8D5",
+        progress_color_3: "#2D8BBA",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

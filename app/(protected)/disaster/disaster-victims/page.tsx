@@ -2,6 +2,7 @@
 
 import RequestCard from '@/components/RequestCard';
 import GoogleMaps from '@/components/GoogleMaps';
+import { Progress } from "@/components/ui/progress"
 
 import { TrendingUp } from 'lucide-react';
 import { Pie, PieChart } from 'recharts';
@@ -21,10 +22,16 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 
+// 3 float values fo "To Reply", "Replied", "Closed"
+const ToReply = 60;
+const Replied = 40;
+const Closed = 20;
+const max_progress = ToReply + Replied + Closed;
+
 const chartData = [
-  { browser: 'To Reply', visitors: 275, fill: '#6CE5E8' },
-  { browser: 'Replied', visitors: 200, fill: '#41B8D5' },
-  { browser: 'Closed', visitors: 187, fill: '#2D8BBA' },
+  { browser: 'To Reply', visitors: ToReply, fill: '#6CE5E8' },
+  { browser: 'Replied', visitors: Replied, fill: '#41B8D5' },
+  { browser: 'Closed', visitors: Closed, fill: '#2D8BBA' },
 ];
 
 const chartConfig = {
@@ -47,22 +54,64 @@ const chartConfig = {
 
 export default function Admin() {
   return (
-    <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-20">
-      <div className="w-full flex gap-10 bg-white flex-wrap rounded-2xl">
+    <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-10">
+      <div className="w-full flex bg-white flex-col gap-10 rounded-2xl">
         <div className="w-full flex flex-row gap-10 p-10 pb-0 h-1/4">
-          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-400"></div>
-          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-400"></div>
-          <div className="w-1/3 bg-white h-full rounded-2xl shadow-md shadow-gray-400"></div>
+
+          <div className="w-1/3 bg-ToReply h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
+            <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
+              <p className='pl-5 pb-5 text-active font-bold text-2xl'>To Reply</p>
+              <div className='flex flex-row items-end'>
+                <p className='pl-5 text-white font-bold text-5xl'>{ToReply}</p>
+                <p className='text-white pl-1 font-bold text-lg'>requests</p>
+              </div>
+            </div>
+            <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
+              <svg width="80" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+
+
+          <div className="w-1/3 bg-Replied h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
+            <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
+              <p className='pl-5 pb-5 text-active font-bold text-2xl'>Replied</p>
+              <div className='flex flex-row items-end'>
+                <p className='pl-5 text-white font-bold text-5xl'>{Replied}</p>
+                <p className='text-white pl-1 font-bold text-lg'>requests</p>
+              </div>
+            </div>
+            <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
+              <svg width="80" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div className="w-1/3 bg-Closed h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
+            <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
+              <p className='pl-5 pb-5 text-active font-bold text-2xl'>Closed</p>
+              <div className='flex flex-row items-end'>
+                <p className='pl-5 text-white font-bold text-5xl'>{Closed}</p>
+                <p className='text-white pl-1 font-bold text-lg'>requests</p>
+              </div>
+            </div>
+            <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
+              <svg width="80" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
         </div>
 
-        <div className="w-full flex gap-10 p-10 pb-20 pt-0 h-3/4">
+        <div className="w-full flex gap-10 p-10 pt-0 h-3/4">
           <div className="w-1/2 h-full flex flex-row ">
-            <div className="w-full flex flex-row bg-white h-full rounded-2xl shadow-md shadow-gray-400 mb-10">
-              <div className="w-3/5 h-full bg-white rounded-2xl">
-                <Card className="flex flex-col shadow-none border-none pt-5">
-                  <CardHeader className="items-center pb-0">
+            <div className="w-full flex flex-row bg-slate-100 h-full rounded-2xl shadow-md shadow-gray-400 mb-10">
+              <div className="w-3/5 h-full rounded-2xl flex flex-col justify-center">
+                <Card className="flex flex-col shadow-none border-none bg-slate-100">
+                  <CardHeader className="items-center pb-0 pt-0">
                     <CardTitle>Pie Chart - Donut</CardTitle>
-                    <CardDescription>January - June 2024</CardDescription>
                   </CardHeader>
                   <CardContent className="flex-1 pb-0">
                     <ChartContainer
@@ -86,7 +135,22 @@ export default function Admin() {
                 </Card>
               </div>
 
-              <div className="w-2/5 bg-slate-400 rounded-2xl"></div>
+              <div className="w-2/5 rounded-2xl flex flex-col justify-center pr-10 gap-5">
+                <div> 
+                  <p className='font-extrabold text-gray-500 pb-3'>To Reply</p>
+                  <Progress  value={(ToReply / max_progress) * 100} className='h-7' indicatorColor="bg-progress_color_1" />
+                </div>
+                <div>
+                  <p className='font-extrabold text-gray-500 pb-3'>Replied</p>
+                  <Progress max={max_progress} value={(Replied / max_progress) * 100} className='h-7' indicatorColor="bg-progress_color_2" />
+                </div>
+                <div>
+                  <p className='font-extrabold text-gray-500 pb-3'>Closed</p>
+                  <Progress max={max_progress} value={(Closed / max_progress) * 100} className='h-7' indicatorColor="bg-progress_color_3" />
+                </div>
+                
+              </div>
+
             </div>
           </div>
           <div className="flex flex-col w-1/2 gap-14 h-full">
