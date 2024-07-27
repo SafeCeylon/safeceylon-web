@@ -13,12 +13,9 @@ export default function Admin() {
         
         <div className="h-[10%] pl-10 flex items-center">
           <p className="font-bold text-xl">Disaster Victims Chat</p>
-
         </div>
 
-        <div className=" w-full h-[90%] pl-10 pr-10 pb-10">
-
-          
+        <div className=" w-full h-[90%] pl-10 pr-10 pb-10">          
 
           <div className="w-full h-full bg-slate-200 p-10 rounded-2xl flex flex-row gap-10">
             <div className="h-full w-1/4 bg-white rounded-2xl shadow-md shadow-gray-400">
@@ -71,7 +68,6 @@ export default function Admin() {
                 }
                 
               </div>
-
             </div>
 
             <div className="h-full w-2/4 bg-white rounded-2xl shadow-md shadow-gray-400">
