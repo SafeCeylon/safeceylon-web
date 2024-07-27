@@ -26,6 +26,8 @@ export default function DisasterNavbar() {
         return 'Disaster Victims';
       case 'officer-details':
         return 'Officer Details';
+      case 'disaster-victims/chat':
+        return 'Disaster Victims - Chat';
       default:
         return 'Dashboard';
     }
@@ -38,7 +40,7 @@ export default function DisasterNavbar() {
           <Image src={images.Logo4} alt="Logo1" className="h-[30px] w-auto" />
           <div className="flex gap-5 tracking-wide">
             <Link
-              href={'../disaster/dashboard/'}
+              href={'/disaster/dashboard/'}
               className={`text-white font-light ${
                 pathname == 'dashboard' ? 'text-active' : ''
               }`}
@@ -46,7 +48,7 @@ export default function DisasterNavbar() {
               Dashboard
             </Link>
             <Link
-              href={'../disaster/disaster-locations/'}
+              href={'/disaster/disaster-locations/'}
               className={`text-white font-light ${
                 pathname == 'disaster-locations' ? 'text-active' : ''
               }`}
@@ -54,7 +56,7 @@ export default function DisasterNavbar() {
               Disaster Locations
             </Link>
             <Link
-              href={'../disaster/shelters-hospitals/'}
+              href={'/disaster/shelters-hospitals/'}
               className={`text-white font-light ${
                 pathname == 'shelters-hospitals' ? 'text-active' : ''
               }`}
@@ -110,7 +112,7 @@ export default function DisasterNavbar() {
         </div>
         <div className="flex gap-20 tracking-wide">
           <Link
-            href={'../disaster/disaster-predictions/'}
+            href={'/disaster/disaster-predictions/'}
             className={`text-white font-light ${
               pathname == 'disaster-predictions' ? 'text-active' : ''
             }`}
@@ -118,9 +120,9 @@ export default function DisasterNavbar() {
             Disaster Predictions
           </Link>
           <Link
-            href={'../disaster/disaster-victims/'}
+            href={'/disaster/disaster-victims/'}
             className={`text-white font-light ${
-              pathname == 'disaster-victims' ? 'text-active' : ''
+              pathname == 'disaster-victims' || pathname == 'disaster-victims/chat' ? 'text-active' : ''
             }`}
           >
             Disaster Victims

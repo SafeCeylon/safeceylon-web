@@ -7,6 +7,8 @@ import { Progress } from "@/components/ui/progress"
 import { TrendingUp } from 'lucide-react';
 import { Pie, PieChart } from 'recharts';
 
+import Link from 'next/link';
+
 import {
   Card,
   CardContent,
@@ -58,51 +60,56 @@ export default function Admin() {
       <div className="w-full flex bg-white flex-col gap-10 rounded-2xl">
         <div className="w-full flex flex-row gap-10 p-10 pb-0 h-1/4">
 
-          <div className="w-1/3 bg-ToReply h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
-            <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
-              <p className='pl-5 pb-5 text-active font-bold text-2xl'>To Reply</p>
-              <div className='flex flex-row items-end'>
-                <p className='pl-5 text-white font-bold text-5xl'>{ToReply}</p>
-                <p className='text-white pl-1 font-bold text-lg'>requests</p>
+          <Link className='w-1/3' href={'/disaster/disaster-victims/chat/'}>
+            <div className="w-full bg-ToReply h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
+              <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
+                <p className='pl-5 pb-5 text-active font-bold text-2xl'>To Reply</p>
+                <div className='flex flex-row items-end'>
+                  <p className='pl-5 text-white font-bold text-5xl'>{ToReply}</p>
+                  <p className='text-white pl-1 font-bold text-lg'>requests</p>
+                </div>
+              </div>
+              <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
+                <svg width="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
             </div>
-            <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
-              <svg width="80" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
+          </Link>
 
-
-          <div className="w-1/3 bg-Replied h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
-            <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
-              <p className='pl-5 pb-5 text-active font-bold text-2xl'>Replied</p>
-              <div className='flex flex-row items-end'>
-                <p className='pl-5 text-white font-bold text-5xl'>{Replied}</p>
-                <p className='text-white pl-1 font-bold text-lg'>requests</p>
+          <Link className='w-1/3' href={'/disaster/disaster-victims/chat/'}>
+            <div className="w-full bg-Replied h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
+              <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
+                <p className='pl-5 pb-5 text-active font-bold text-2xl'>Replied</p>
+                <div className='flex flex-row items-end'>
+                  <p className='pl-5 text-white font-bold text-5xl'>{Replied}</p>
+                  <p className='text-white pl-1 font-bold text-lg'>requests</p>
+                </div>
+              </div>
+              <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
+                <svg width="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
             </div>
-            <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
-              <svg width="80" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
+          </Link>
 
-          <div className="w-1/3 bg-Closed h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
-            <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
-              <p className='pl-5 pb-5 text-active font-bold text-2xl'>Closed</p>
-              <div className='flex flex-row items-end'>
-                <p className='pl-5 text-white font-bold text-5xl'>{Closed}</p>
-                <p className='text-white pl-1 font-bold text-lg'>requests</p>
+          <Link className='w-1/3' href={'/disaster/disaster-victims/chat/'}>
+            <div className="w-full bg-Closed h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
+              <div className='w-4/5 flex flex-col justify-center rounded-2xl'>
+                <p className='pl-5 pb-5 text-active font-bold text-2xl'>Closed</p>
+                <div className='flex flex-row items-end'>
+                  <p className='pl-5 text-white font-bold text-5xl'>{Closed}</p>
+                  <p className='text-white pl-1 font-bold text-lg'>requests</p>
+                </div>
+              </div>
+              <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
+                <svg width="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               </div>
             </div>
-            <div className='flex justify-center w-1/5 items-center bg-slate-100 rounded-2xl rounded-l-none'>
-              <svg width="80" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.5 12.5L40 30L22.5 47.5" stroke="black" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-          </div>
+          </Link>
         </div>
 
         <div className="w-full flex gap-10 p-10 pt-0 h-3/4">
