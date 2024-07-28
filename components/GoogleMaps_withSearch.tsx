@@ -73,12 +73,7 @@ export default function GoogleMaps_withSearch() {
 
     return (
         <div className='relative h-full'>
-            <input
-                id='place-search-input'
-                type='text'
-                placeholder='Search for a place'
-                className='absolute top-4 left-4 p-2 border rounded-md bg-white z-10'
-            />
+            
             <div className='h-full rounded-2xl' ref={mapRef}></div>
         </div>
     );

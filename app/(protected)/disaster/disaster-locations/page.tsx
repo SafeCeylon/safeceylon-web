@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import GoogleMaps from '@/components/GoogleMaps';
+import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
 
 import Image from 'next/image';
 import add_icon from '@/public/assets/add_icon.svg';
@@ -44,8 +44,16 @@ export default function Admin() {
             </Select>
           </div>
 
-          <div className="h-[90%]">
-            <GoogleMaps />
+          <div className="h-[83%]">
+            <div className='w-1/2 pb-2'>
+                <input
+                  id='place-search-input'
+                  type='text'
+                  placeholder='Search for a place'
+                  className='w-full p-2 border border-gray-500 rounded-md bg-white z-10'
+                />
+            </div>
+            <GoogleMaps_withSearch />
           </div>
         </div>
       </div>
