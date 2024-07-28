@@ -81,7 +81,7 @@ export default function Admin() {
 
 
                   <div className='h-full w-[10%] rounded-2xl rounded-l-none flex flex-col justify-between items-end py-3 pr-3'>
-                    <Link href={'#'}>
+                    <Link href={'/disaster/officer-details/update-officer/'}>
                       <div className='w-full flex'>
                         <Image src={Updateicon} alt='Update Icon' className='w-7' />
                       </div>
