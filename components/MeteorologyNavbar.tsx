@@ -20,6 +20,10 @@ export default function DisasterNavbar() {
         return 'Weather Forecasts';
       case 'officer-details':
         return 'Officer Details';
+      case 'officer-details/add-officer':
+        return 'Add Officer';
+      case 'officer-details/update-officer':
+        return 'Update Officer';
       default:
         return 'Dashboard';
     }
@@ -32,7 +36,7 @@ export default function DisasterNavbar() {
           <Image src={images.Logo4} alt="Logo1" className="h-[30px] w-auto" />
           <div className="flex gap-5 tracking-wide">
             <Link
-              href={'../meteorology/dashboard/'}
+              href={'/meteorology/dashboard/'}
               className={`text-white font-light ${
                 pathname == 'dashboard' ? 'text-active' : ''
               }`}
@@ -40,7 +44,7 @@ export default function DisasterNavbar() {
               Dashboard
             </Link>
             <Link
-              href={'../meteorology/weather-forecasts/'}
+              href={'/meteorology/weather-forecasts/'}
               className={`text-white font-light ${
                 pathname == 'weather-forecasts' ? 'text-active' : ''
               }`}
@@ -48,9 +52,9 @@ export default function DisasterNavbar() {
               Weather Forecasts
             </Link>
             <Link
-              href={'../meteorology/officer-details/'}
+              href={'/meteorology/officer-details/'}
               className={`text-white font-light ${
-                pathname == 'officer-details' ? 'text-active' : ''
+                pathname == 'officer-details' || pathname == "officer-details/add-officer" || pathname == "officer-details/update-officer" ? 'text-active' : ''
               }`}
             >
               Officer Details
