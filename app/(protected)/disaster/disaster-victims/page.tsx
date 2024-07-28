@@ -1,7 +1,7 @@
 'use client';
 
 import RequestCard from '@/components/RequestCard';
-import GoogleMaps from '@/components/GoogleMaps';
+import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
 import { Progress } from "@/components/ui/progress"
 
 import { TrendingUp } from 'lucide-react';
@@ -162,7 +162,7 @@ export default function Admin() {
           </div>
           <div className="flex flex-col w-1/2 gap-14 h-full">
             <div className="w-full bg-white h-full rounded-2xl shadow-md shadow-gray-400 ">
-              <GoogleMaps />
+              <GoogleMaps_withSearch />
             </div>
           </div>
         </div>

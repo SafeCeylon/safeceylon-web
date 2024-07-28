@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -19,10 +20,10 @@ export default function Admin() {
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-20">
       <div className="flex flex-col w-full gap-14 h-full">
         <div className="w-full bg-white h-full rounded-2xl p-5 pt-2">
-          <div className="w-full h-20 flex-shrink-0 flex flex-row justify-between">
+          <div className="w-full h-20 flex-shrink-0 flex flex-row justify-between items-center">
             <Button
               variant="outline"
-              className="mt-4 ml-4 rounded-full shadow-md shadow-gray-400"
+              className="ml-4 rounded-full shadow-md shadow-gray-400"
             >
               <Image
                 src={add_icon}
@@ -32,8 +33,17 @@ export default function Admin() {
               Add Disaster Location
             </Button>
 
+              <div className='w-1/3 pb-2'>
+                  <Input
+                    id='place-search-input'
+                    type='text'
+                    placeholder='Search for a place'
+                    className='w-full p-2 rounded-full shadow-md shadow-gray-400'
+                  />
+              </div>
+
             <Select>
-              <SelectTrigger className="w-[180px] mt-4 mr-4 rounded-full shadow-md shadow-gray-400">
+              <SelectTrigger className="w-[180px] mr-4 rounded-full shadow-md shadow-gray-400">
                 <SelectValue placeholder="User Repors" />
               </SelectTrigger>
               <SelectContent>
@@ -44,15 +54,7 @@ export default function Admin() {
             </Select>
           </div>
 
-          <div className="h-[83%]">
-            <div className='w-1/2 pb-2'>
-                <input
-                  id='place-search-input'
-                  type='text'
-                  placeholder='Search for a place'
-                  className='w-full p-2 border border-gray-500 rounded-md bg-white z-10'
-                />
-            </div>
+          <div className="h-[90%]">
             <GoogleMaps_withSearch />
           </div>
         </div>

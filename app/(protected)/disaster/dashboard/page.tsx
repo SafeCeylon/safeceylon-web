@@ -1,7 +1,7 @@
 'use client';
 
 import RequestCard from '@/components/RequestCard';
-import GoogleMaps from '@/components/GoogleMaps';
+import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
 
 export default function Admin() {
   return (
@@ -20,7 +20,7 @@ export default function Admin() {
         </div>
 
         <div className="w-full bg-white h-2/3 rounded-2xl">
-          <GoogleMaps />
+          <GoogleMaps_withSearch />
         </div>
       </div>
       <div className="w-1/3 h-full flex flex-col gap-14">
