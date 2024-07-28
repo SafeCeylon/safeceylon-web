@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui/select';
 
 import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
+import GMaps_search from '@/components/gMaps_search';
 
 import Image from 'next/image';
 import add_icon from '@/public/assets/add_icon.svg';
@@ -33,14 +33,7 @@ export default function Admin() {
               Add Disaster Location
             </Button>
 
-              <div className='w-1/3 pb-2'>
-                  <Input
-                    id='place-search-input'
-                    type='text'
-                    placeholder='Search for a place'
-                    className='w-full p-2 rounded-full shadow-md shadow-gray-400'
-                  />
-              </div>
+              <GMaps_search />
 
             <Select>
               <SelectTrigger className="w-[180px] mr-4 rounded-full shadow-md shadow-gray-400">

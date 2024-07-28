@@ -1,6 +1,6 @@
 'use client';
 
-import { Input } from "@/components/ui/input";
+
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/select';
 
 import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
+import GMapsSearch from '@/components/gMaps_search';
 
 import Link from 'next/link';
 
@@ -74,15 +75,7 @@ export default function Admin() {
               </Button>
             </div>
 
-
-            <div className='w-1/3'>
-                <Input
-                  id='place-search-input'
-                  type='text'
-                  placeholder='Search for a place'
-                  className='w-full p-2 rounded-full shadow-md shadow-gray-400'
-                />
-              </div>
+            <GMapsSearch />
 
           </div>
 
