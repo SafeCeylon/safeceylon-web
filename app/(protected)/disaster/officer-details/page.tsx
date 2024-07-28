@@ -19,17 +19,20 @@ export default function Admin() {
       <div className="flex flex-col w-full gap-14 h-full">
         <div className="w-full bg-white h-full rounded-2xl p-5 pt-2">
           <div className="px-20 w-full h-[11%] flex-shrink-0 flex flex-row justify-between items-center">
-            <Button
-              variant="outline"
-              className="rounded-full shadow-md shadow-gray-400"
-            >
-              <Image
-                src={add_icon}
-                alt="Logo1"
-                className="h-[18px] w-auto pr-2"
-              />
-              Add Disaster Location
-            </Button>
+
+            <Link href={'/disaster/officer-details/add-officer/'}>
+              <Button
+                variant="outline"
+                className="rounded-full shadow-md shadow-gray-400"
+              >
+                <Image
+                  src={add_icon}
+                  alt="Logo1"
+                  className="h-[18px] w-auto pr-2"
+                />
+                Add Officer
+              </Button>
+            </Link>
 
             <div className='flex items-center rounded-full shadow-md shadow-gray-400'>
               <svg
@@ -61,22 +64,20 @@ export default function Admin() {
 
                 <div key={index} className='w-full h-40 flex flex-row rounded-2xl shadow-md shadow-gray-400'>
 
-                  <Link href={'/disaster/officer-details/profile/'} className='w-[90%] flex flex-row hover:text-amber-500'>
-                    <div className='h-full w-[25%] rounded-2xl rounded-r-none' style={{ backgroundColor: '#9ACC99' }}>
-                      <Image 
-                        className='w-full h-full object-contain object-center rounded-2xl rounded-r-none'
-                        src={DefaultOfficerImage} 
-                        alt='Officer Image' 
-                      />
-                    </div>
+                  <div className='w-[25%] rounded-2xl rounded-r-none' style={{ backgroundColor: '#9ACC99' }}>
+                    <Image 
+                      className='w-full h-full object-contain object-center rounded-2xl rounded-r-none'
+                      src={DefaultOfficerImage} 
+                      alt='Officer Image' 
+                    />
+                  </div>
 
-                    <div className='h-full w-[65%] pl-10 py-5 flex flex-col justify-center items-start gap-2'>
-                      <p className='text-lg font-bold'>Officer Name</p>
-                      <p className='text-lg'>Senior Officer</p>
-                      <p className='text-lg'>071 2926 972</p>
+                  <div className='h-full w-[65%] pl-10 py-5 flex flex-col justify-center items-start gap-2'>
+                    <p className='text-lg font-bold'>Officer Name</p>
+                    <p className='text-lg'>Senior Officer</p>
+                    <p className='text-lg'>071 2926 972</p>
 
-                    </div>   
-                  </Link>
+                  </div>   
 
 
                   <div className='h-full w-[10%] rounded-2xl rounded-l-none flex flex-col justify-between items-end py-3 pr-3'>

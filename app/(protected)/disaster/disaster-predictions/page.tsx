@@ -72,7 +72,7 @@ export default function Admin() {
             </Button>
           </div>
 
-          <div className="h-[680px]">
+          <div className="h-[90%]">
             <GoogleMaps />
           </div>
         </div>
