@@ -73,7 +73,7 @@ export default function GoogleMaps_withSearch() {
 
     return (
         <div className='relative h-full'>
-            
+
             <div className='h-full rounded-2xl' ref={mapRef}></div>
         </div>
     );

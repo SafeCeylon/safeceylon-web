@@ -17,7 +17,7 @@ export default function Admin() {
   return (
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-20">
       <div className="flex flex-col w-full gap-14 h-full">
-        <div className="w-full bg-white h-full rounded-2xl p-5 pt-2">
+        <div className="w-full bg-white h-full rounded-2xl p-5 pt-0">
           <div className="px-20 w-full h-[11%] flex-shrink-0 flex flex-row justify-between items-center">
 
             <Link href={'/disaster/officer-details/add-officer/'}>
