@@ -28,6 +28,8 @@ export default function DisasterNavbar() {
         return 'Officer Details';
       case 'disaster-victims/chat':
         return 'Disaster Victims - Chat';
+      case 'officer-details/profile':
+        return 'Officer Details - Profile';
       default:
         return 'Dashboard';
     }
@@ -128,9 +130,9 @@ export default function DisasterNavbar() {
             Disaster Victims
           </Link>
           <Link
-            href={'#'}
+            href={'/disaster/officer-details/'}
             className={`text-white font-light ${
-              pathname == 'officer-details' ? 'text-active' : ''
+              pathname == 'officer-details' || pathname == 'officer-details/profile' ? 'text-active' : ''
             }`}
           >
             Officer Details
