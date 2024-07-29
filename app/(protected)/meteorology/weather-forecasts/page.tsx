@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import GoogleMaps from '@/components/GoogleMaps';
+import GoogleMaps from '@/components/GoogleMaps_withSearch';
 
 import Link from 'next/link';
 
