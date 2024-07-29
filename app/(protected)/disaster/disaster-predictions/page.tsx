@@ -75,8 +75,6 @@ export default function Admin() {
               </Button>
             </div>
 
-            <GMapsSearch />
-
           </div>
 
           <div className="h-[90%]">

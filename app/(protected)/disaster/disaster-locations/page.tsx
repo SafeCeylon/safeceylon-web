@@ -33,8 +33,6 @@ export default function Admin() {
               Add Disaster Location
             </Button>
 
-              <GMaps_search />
-
             <Select>
               <SelectTrigger className="w-[180px] mr-4 rounded-full shadow-md shadow-gray-400">
                 <SelectValue placeholder="User Repors" />

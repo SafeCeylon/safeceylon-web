@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
+import GMaps_search from '@/components/gMaps_search';
 
 export default function GoogleMaps_withSearch() {
     const mapRef = React.useRef<HTMLDivElement>(null);
@@ -72,9 +73,12 @@ export default function GoogleMaps_withSearch() {
     }, []);
 
     return (
-        <div className='relative h-full'>
-
-            <div className='h-full rounded-2xl' ref={mapRef}></div>
+        <div className='relative h-full '>
+            <div className='z-10 absolute w-full flex justify-center items-center pt-2'>                    
+                <GMaps_search />
+            </div>
+            <div className='h-full rounded-2xl' ref={mapRef}>
+            </div>
         </div>
     );
 }

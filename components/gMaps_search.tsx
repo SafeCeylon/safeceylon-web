@@ -9,7 +9,7 @@ const gMaps_search = () => {
             id='place-search-input'
             type='text'
             placeholder='Search for a place'
-            className='w-full p-2 rounded-full shadow-md shadow-gray-400'
+            className='w-full p-5  shadow-md shadow-gray-400 bg-white'
         />
     </div>
   )
