@@ -9,7 +9,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import GoogleMaps from '@/components/GoogleMaps';
+import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
+import GMaps_search from '@/components/gMaps_search';
 
 import Image from 'next/image';
 import add_icon from '@/public/assets/add_icon.svg';
@@ -18,11 +19,11 @@ export default function Admin() {
   return (
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-20">
       <div className="flex flex-col w-full gap-14 h-full">
-        <div className="w-full bg-white h-full rounded-2xl p-5 pt-2">
-          <div className="w-full h-20 flex-shrink-0 flex flex-row justify-between">
+        <div className="w-full bg-white h-full rounded-2xl p-5 pt-0">
+          <div className="w-full h-20 flex-shrink-0 flex flex-row justify-between items-center">
             <Button
               variant="outline"
-              className="mt-4 ml-4 rounded-full shadow-md shadow-gray-400"
+              className="ml-4 rounded-full shadow-md shadow-gray-400"
             >
               <Image
                 src={add_icon}
@@ -33,7 +34,7 @@ export default function Admin() {
             </Button>
 
             <Select>
-              <SelectTrigger className="w-[180px] mt-4 mr-4 rounded-full shadow-md shadow-gray-400">
+              <SelectTrigger className="w-[180px] mr-4 rounded-full shadow-md shadow-gray-400">
                 <SelectValue placeholder="User Repors" />
               </SelectTrigger>
               <SelectContent>
@@ -45,7 +46,7 @@ export default function Admin() {
           </div>
 
           <div className="h-[90%]">
-            <GoogleMaps />
+            <GoogleMaps_withSearch />
           </div>
         </div>
       </div>

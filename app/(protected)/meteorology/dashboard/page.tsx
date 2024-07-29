@@ -1,7 +1,7 @@
 'use client';
 
 import RequestCard from '@/components/RequestCard';
-import GoogleMaps from '@/components/GoogleMaps';
+import GoogleMaps from '@/components/GoogleMaps_withSearch';
 
 export default function Admin() {
   return (
