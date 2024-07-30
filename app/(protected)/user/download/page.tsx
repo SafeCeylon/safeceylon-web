@@ -17,9 +17,9 @@ export default function Admin() {
             <span className="text-4xl">Our Mobile App</span>
           </h1>
           <p className="text-lg text-gray-200">
-            The user app is a mobile application that allows users to access the
-            platform from their mobile devices. The app is available on both
-            Android and iOS devices.
+            For better user experience you can download mobile application to
+            your mobile devices. The app is available on both Android and iOS
+            devices.
           </p>
           <div className="flex gap-5">
             <a
