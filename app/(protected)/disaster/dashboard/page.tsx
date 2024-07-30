@@ -101,7 +101,10 @@ export default function Admin() {
               <RequestCard />
             </div>
           </div>
-          <div className="text-black flex flex-col bg-white w-1/2 items-center h-full rounded-2xl"></div>
+          <div className="text-black flex flex-col bg-blue-100 w-1/2 items-center justify-center h-full rounded-2xl">
+            {/* Blue Section */}
+            <p>Desaster Stat</p>
+          </div>
         </div>
 
         <div className="w-full bg-white h-2/3 rounded-2xl">
@@ -111,7 +114,10 @@ export default function Admin() {
 
 
       <div className="w-1/3 h-full flex flex-col gap-14">
-        <div className="text-black flex flex-col bg-white w-full items-center h-1/4 rounded-2xl"></div>
+        <div className="text-black flex flex-col bg-green-100 w-full items-center justify-center h-1/4 rounded-2xl">
+          {/* Green section */}
+          <p>Officer Satat</p>
+        </div>
 
         <div className="w-full bg-white h-2/3 rounded-2xl p-5">
           <div className='w-full h-[5%] flex justify-center items-center pb-2'>
