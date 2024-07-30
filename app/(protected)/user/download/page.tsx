@@ -10,8 +10,7 @@ export default function Admin() {
   return (
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-20 mt-5">
       <div className="flex justify-center">
-        <Image src={UserLogin} alt="mobile app" className="h-full" />
-        <div className="w-2/3 h-full flex flex-col gap-14 text-center items-center">
+      <div className="w-2/3 h-full flex flex-col gap-14 text-left mt-[60px]">
           <h1 className="text-6xl font-semibold text-white">
             Download
             <br />
@@ -43,6 +42,7 @@ export default function Admin() {
             </a>
           </div>
         </div>
+        <Image src={UserLogin} alt="mobile app" className="h-full" />
         <Image src={UserApp} alt="mobile app" className="h-full" />
       </div>
     </div>
