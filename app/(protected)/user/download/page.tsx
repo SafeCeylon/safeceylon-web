@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 
-import UserApp from '@/public/assets/user-dashboard.png';
-import UserLogin from '@/public/assets/user-login.png';
+import UserApp from '@/public/assets/user-dashboard.svg';
+import UserLogin from '@/public/assets/user-login.svg';
 import GooglePlay from '@/public/assets/icons/google_play.png';
 import AppStore from '@/public/assets/icons/app_store.png';
 
