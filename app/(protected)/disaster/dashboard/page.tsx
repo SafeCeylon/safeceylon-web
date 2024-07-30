@@ -3,6 +3,25 @@
 import RequestCard from '@/components/RequestCard';
 import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+
 /*
 must need foemat
 
@@ -89,9 +108,73 @@ export default function Admin() {
           <GoogleMaps_withSearch />
         </div>
       </div>
+
+
       <div className="w-1/3 h-full flex flex-col gap-14">
         <div className="text-black flex flex-col bg-white w-full items-center h-1/4 rounded-2xl"></div>
-        <div className="w-full bg-white h-2/3 rounded-2xl"></div>
+
+        <div className="w-full bg-white h-2/3 rounded-2xl p-5">
+          <div className='w-full h-[5%] flex justify-center items-center pb-2'>
+            <p className='text-lg font-bold'>Disaster Updates</p>
+          </div>
+
+          <div className='w-full h-[95%] pb-5 px-5 flex flex-col border-2 rounded-2xl border-gray-300'>
+            
+            <div className='w-full h-[13%] flex flex-row items-center pl-2 gap-5'>
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="User Reports" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">User Reports</SelectItem>
+                  <SelectItem value="dark">User Reports</SelectItem>
+                  <SelectItem value="system">User Reports</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Last Week" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">Last Week</SelectItem>
+                  <SelectItem value="dark">Last Week</SelectItem>
+                  <SelectItem value="system">Last Week</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className='w-full h-[87%]'>              
+              <Table>
+                <TableHeader className='bg-slate-300'>
+                  <TableRow>
+                    <TableHead className="w-1/5 text-gray-950 font-bold text-[15px]">Type</TableHead>
+                    <TableHead className="w-2/5 text-gray-950 font-bold text-[15px]">Latitude</TableHead>
+                    <TableHead className="w-2/5 text-gray-950 font-bold text-[15px]">Longitude</TableHead>                                      
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  
+                  {/* gettin data from the locationTableData */}
+                  {locationTableData.map((data, index) => (
+                    <TableRow key={index}
+                    // highlight the row based on the type
+                      className={data.type === "Flood" ? "bg-[#C4CDFD]" : data.type === "LandSlide" ? "bg-[#DAC8FF]" : "bg-[#C7FFD8]"}
+                    >
+                      <TableCell className='font-bold'>{data.type}</TableCell>
+                      <TableCell>{data.lat}</TableCell>
+                      <TableCell>{data.lng}</TableCell>
+                    </TableRow>
+                  ))}
+
+                </TableBody>
+              </Table>
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
     </div>
   );
