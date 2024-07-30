@@ -50,7 +50,7 @@ export default function Admin() {
         <Image
           src={UserApp}
           alt="mobile app"
-          className="h-5/6 w-auto mt-[150px] ml-[-150px] pb-[20px]"
+          className="h-5/6 w-auto mt-[140px] ml-[-150px] pb-[20px]"
         />
       </div>
     </div>
