@@ -9,15 +9,15 @@ import { log } from 'console';
 import { UserButton } from './auth/user-button';
 
 export default function UserNavbar() {
-  const pathname = usePathname().slice(13);
+  const pathname = usePathname().slice(6);
   // console.log(pathname)
 
   const getPageTitle = (path: any) => {
     switch (path) {
-      case 'dashboard':
-        return 'Dashboard';
+      case 'download':
+        return 'Download';
       default:
-        return 'Dashboard';
+        return 'Settings';
     }
   };
 
@@ -28,12 +28,12 @@ export default function UserNavbar() {
           <Image src={images.Logo4} alt="Logo1" className="h-[30px] w-auto" />
           <div className="flex gap-5 tracking-wide">
             <Link
-              href={'/user/dashboard/'}
+              href={'/user/download/'}
               className={`text-white font-light ${
-                pathname == 'dashboard' ? 'text-active' : ''
+                pathname == 'download' ? 'text-active' : ''
               }`}
             >
-              Dashboard
+              Download
             </Link>
           </div>
         </div>
