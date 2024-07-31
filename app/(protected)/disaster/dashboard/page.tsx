@@ -116,7 +116,7 @@ export default function Admin() {
 
           <div className="text-black flex flex-col w-1/2 items-center justify-center h-full rounded-2xl bg-[#FFF9F0] ">
             
-            <h4 className="text-lg mt-[10px]">Disaster Victims Status</h4>
+            <h4 className="text-lg mt-[10px]">System User Count</h4>
 
             <div className='flex flex-row justify-evenly  h-full mt-2 mb-5 w-full'>
 
