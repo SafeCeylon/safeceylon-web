@@ -6,6 +6,8 @@ import Logo2 from '@/public/assets/Logo2.png';
 import Logo3 from '@/public/assets/Logo3.png';
 import Logo4 from '@/public/assets/Logo4.png';
 import DisasterProfile from '@/public/assets/disaster/profile.png';
+import GooglePlay from '@/public/assets/icons/google_play.png';
+import AppStore from '@/public/assets/icons/app_store.png';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -17,4 +19,6 @@ export default {
   Logo3,
   Logo4,
   DisasterProfile,
+  GooglePlay,
+  AppStore,
 };

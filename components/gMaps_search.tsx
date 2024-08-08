@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 
 const gMaps_search = () => {
   return (
-    <div className='w-1/3'>
+    <div className='w-full'>
         <Input
             id='place-search-input'
             type='text'

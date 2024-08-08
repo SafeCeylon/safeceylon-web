@@ -38,9 +38,9 @@ export default function Admin() {
                 <SelectValue placeholder="User Repors" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="light">User Repors</SelectItem>
-                <SelectItem value="dark">User Repors</SelectItem>
-                <SelectItem value="system">User Repors</SelectItem>
+                <SelectItem value="light">User Reports</SelectItem>
+                <SelectItem value="dark">User Reports</SelectItem>
+                <SelectItem value="system">User Reports</SelectItem>
               </SelectContent>
             </Select>
           </div>
