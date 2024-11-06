@@ -9,6 +9,10 @@ import DisasterProfile from '@/public/assets/disaster/profile.png';
 import GooglePlay from '@/public/assets/icons/google_play.png';
 import AppStore from '@/public/assets/icons/app_store.png';
 
+import Flood from '@/public/assets/icons/flood_icon.png';
+import Landslide from '@/public/assets/icons/landslide_icon.png';
+import Hurricane from '@/public/assets/icons/hurricane_icon.png';
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   HomeBG,
@@ -21,4 +25,7 @@ export default {
   DisasterProfile,
   GooglePlay,
   AppStore,
+  Flood,
+  Landslide,
+  Hurricane,
 };
