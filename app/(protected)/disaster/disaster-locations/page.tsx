@@ -1,20 +1,22 @@
-// File: pages/admin.tsx
+"use client";
 
-'use client';
-
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
-import Image from 'next/image';
-import add_icon from '@/public/assets/add_icon.svg';
-import DisasterForm, { DisasterFormData } from '@/components/DisasterForm';
+} from "@/components/ui/select";
+import GoogleMaps_forDisasterLocations from "@/components/GoogleMaps_forDisasterLocations";
+import Image from "next/image";
+import add_icon from "@/public/assets/add_icon.svg";
+import DisasterForm, {
+  DisasterFormData,
+} from "@/components/DisasterLocationForm";
+
+type DisasterType = "flood" | "landslide" | "hurricane";
 
 export default function Admin() {
   const [isAdding, setIsAdding] = useState(false);
@@ -25,7 +27,7 @@ export default function Admin() {
 
   // List of all disasters with their types and coordinates
   const [disasters, setDisasters] = useState<
-    { lat: number; lng: number; type: string }[]
+    { lat: number; lng: number; type: DisasterType }[]
   >([]);
 
   const handleMapClick = (lat: number, lng: number) => {
@@ -40,7 +42,7 @@ export default function Admin() {
   };
 
   const handleFormSubmit = (data: DisasterFormData) => {
-    console.log('Disaster data submitted:', data);
+    console.log("Disaster data submitted:", data);
     setIsAdding(false);
     setDisasters([...disasters, data]);
     setSelectedLocation(null);
@@ -87,7 +89,7 @@ export default function Admin() {
               </div>
             )}
 
-            <GoogleMaps_withSearch
+            <GoogleMaps_forDisasterLocations
               onClick={handleMapClick}
               disasters={disasters} // Pass disasters to render on map
             />

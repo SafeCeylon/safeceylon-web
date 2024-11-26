@@ -1,51 +1,55 @@
-// File: components/DisasterForm.tsx
-
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
+
+type DisasterType = "flood" | "landslide" | "hurricane";
 
 export interface DisasterFormData {
-  lat: number;
-  lng: number;
-  type: string;
+  name: string;
+  code: string;
+  type: DisasterType;
 }
 
 type DisasterFormProps = {
-  lat: number;
-  lng: number;
+  name: string;
+  code: string;
   onSubmit: (data: DisasterFormData) => void;
   onCancel: () => void;
 };
 
 const DisasterForm: React.FC<DisasterFormProps> = ({
-  lat,
-  lng,
+  name,
+  code,
   onSubmit,
   onCancel,
 }) => {
-  const [disasterType, setDisasterType] = useState<string>('');
+  const [disasterType, setDisasterType] = useState<DisasterType | null>(null);
 
   const handleSubmit = () => {
     if (disasterType) {
-      onSubmit({ lat, lng, type: disasterType });
+      onSubmit({ name, code, type: disasterType });
     } else {
-      alert('Please select a disaster type.');
+      alert("Please select a disaster type.");
     }
   };
 
   return (
     <div className="absolute p-4 bg-white shadow-lg rounded-lg">
-      <h3 className="mb-2 font-bold">Add Disaster Location</h3>
-      <p>Latitude: {lat}</p>
-      <p>Longitude: {lng}</p>
+      <h3 className="mb-2 font-bold">Add Disaster to DSD</h3>
+      <p>
+        <strong>DSD Name:</strong> {name}
+      </p>
+      <p>
+        <strong>DSD Code:</strong> {code}
+      </p>
 
-      <Select onValueChange={setDisasterType}>
+      <Select onValueChange={(value) => setDisasterType(value as DisasterType)}>
         <SelectTrigger className="w-full mt-2">
           <SelectValue placeholder="Select Disaster Type" />
         </SelectTrigger>
