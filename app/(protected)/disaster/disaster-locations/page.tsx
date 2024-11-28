@@ -157,8 +157,8 @@ export default function Admin() {
               <div
                 className="absolute bg-white shadow-lg rounded-lg p-4"
                 style={{
-                  top: `calc(50% + ${selectedLocation.latitude * 0.1}px)`,
-                  left: `calc(50% + ${selectedLocation.longitude * 0.1}px)`,
+                  top: `calc(10% + ${selectedLocation.latitude * 0.05}px)`,
+                  left: `calc(70% + ${selectedLocation.longitude * 0.05}px)`,
                 }}
               >
                 <DisasterForm

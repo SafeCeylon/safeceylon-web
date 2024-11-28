@@ -45,7 +45,7 @@ function createCustomIcon(iconUrl: string): google.maps.Icon {
   };
 }
 
-export default function GoogleMaps_withSearch({
+export default function GoogleMaps_forDisasterLocations({
   onClick,
   disasters,
   onEdit,
@@ -128,6 +128,7 @@ export default function GoogleMaps_withSearch({
         });
 
         // Add disaster circle
+        // Add disaster circle
         new google.maps.Circle({
           center: { lat: disaster.latitude, lng: disaster.longitude },
           radius: disaster.radius,
@@ -137,16 +138,53 @@ export default function GoogleMaps_withSearch({
           strokeOpacity: 0.8,
           strokeWeight: 2,
           map,
+          clickable: false, // Ensures the circle does not block clicks to the map
         });
 
         // Create info window
         const infoWindow = new google.maps.InfoWindow({
           content: `
-            <div>
-              <strong>Type:</strong> ${disaster.type}<br>
-              <strong>Radius:</strong> ${disaster.radius} meters<br>
-              <button id="edit-btn-${disaster.id}" class="map-button">Edit</button>
-              <button id="delete-btn-${disaster.id}" class="map-button">Delete</button>
+            <div style="font-family: Arial, sans-serif; font-size: 14px; text-align: center;">
+              <img
+                src="${disasterIcons[disaster.type].src}"
+                alt="${disaster.type}"
+                style="
+                  display: block;
+                  margin: 0 auto 10px;
+                  width: 50px;
+                  height: 50px;
+                  border-radius: 50%;"
+              />
+              <b>Type:</b> ${disaster.type}<br>
+              <b>Radius:</b> ${disaster.radius} meters<br>
+              <button id="edit-btn-${disaster.id}"
+                      style="
+                        font-size: 12px;
+                        padding: 8px 12px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        margin: 5px 2px;
+                        background-color: #007BFF;
+                        color: white;
+                        transition: background-color 0.3s ease;"
+                      onmouseover="this.style.opacity=0.9"
+                      onmouseout="this.style.opacity=1"
+                      >Edit</button>
+              <button id="delete-btn-${disaster.id}"
+                      style="
+                        font-size: 12px;
+                        padding: 8px 12px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        margin: 5px 2px;
+                        background-color: #FF4D4D;
+                        color: white;
+                        transition: background-color 0.3s ease;"
+                      onmouseover="this.style.opacity=0.9"
+                      onmouseout="this.style.opacity=1"
+                      >Delete</button>
             </div>
           `,
         });
