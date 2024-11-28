@@ -128,7 +128,6 @@ export default function GoogleMaps_forDisasterLocations({
         });
 
         // Add disaster circle
-        // Add disaster circle
         new google.maps.Circle({
           center: { lat: disaster.latitude, lng: disaster.longitude },
           radius: disaster.radius,

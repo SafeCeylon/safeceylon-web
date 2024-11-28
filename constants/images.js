@@ -13,6 +13,9 @@ import Flood from '@/public/assets/icons/flood_icon.png';
 import Landslide from '@/public/assets/icons/landslide_icon.png';
 import Hurricane from '@/public/assets/icons/hurricane_icon.png';
 
+import Shelter from '@/public/assets/icons/shelter.png';
+import Hospital from '@/public/assets/icons/hospital.png';
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   HomeBG,
@@ -28,4 +31,6 @@ export default {
   Flood,
   Landslide,
   Hurricane,
+  Shelter,
+  Hospital,
 };
