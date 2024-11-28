@@ -8,11 +8,20 @@ import { StaticImageData } from "next/image";
 interface GoogleMapsWithSearchProps {
   onClick: (lat: number, lng: number) => void;
   disasters: {
+    id: string; // Unique identifier for each disaster
     latitude: number;
     longitude: number;
     type: string;
     radius: number; // Include radius for circle drawing
   }[];
+  onEdit: (disaster: {
+    id: string;
+    latitude: number;
+    longitude: number;
+    type: string;
+    radius: number;
+  }) => void;
+  onDelete: (id: string) => void;
 }
 
 const disasterIcons: Record<string, StaticImageData> = {
@@ -39,6 +48,8 @@ function createCustomIcon(iconUrl: string): google.maps.Icon {
 export default function GoogleMaps_withSearch({
   onClick,
   disasters,
+  onEdit,
+  onDelete,
 }: GoogleMapsWithSearchProps) {
   const mapRef = React.useRef<HTMLDivElement>(null);
   const [marker, setMarker] = useState<google.maps.Marker | null>(null);
@@ -86,6 +97,7 @@ export default function GoogleMaps_withSearch({
         ],
       });
 
+      // Map click listener
       map.addListener("click", (event: google.maps.MapMouseEvent) => {
         if (event.latLng) {
           const lat = event.latLng.lat();
@@ -106,6 +118,7 @@ export default function GoogleMaps_withSearch({
         }
       });
 
+      // Render disasters
       disasters.forEach((disaster) => {
         const disasterMarker = new google.maps.Marker({
           position: { lat: disaster.latitude, lng: disaster.longitude },
@@ -114,6 +127,7 @@ export default function GoogleMaps_withSearch({
           title: `Disaster Type: ${disaster.type}`,
         });
 
+        // Add disaster circle
         new google.maps.Circle({
           center: { lat: disaster.latitude, lng: disaster.longitude },
           radius: disaster.radius,
@@ -125,10 +139,19 @@ export default function GoogleMaps_withSearch({
           map,
         });
 
+        // Create info window
         const infoWindow = new google.maps.InfoWindow({
-          content: `<div><strong>Type:</strong> ${disaster.type}<br><strong>Radius:</strong> ${disaster.radius} meters</div>`,
+          content: `
+            <div>
+              <strong>Type:</strong> ${disaster.type}<br>
+              <strong>Radius:</strong> ${disaster.radius} meters<br>
+              <button id="edit-btn-${disaster.id}" class="map-button">Edit</button>
+              <button id="delete-btn-${disaster.id}" class="map-button">Delete</button>
+            </div>
+          `,
         });
 
+        // Add info window click listener
         disasterMarker.addListener("click", () => {
           infoWindow.open({
             anchor: disasterMarker,
@@ -136,11 +159,29 @@ export default function GoogleMaps_withSearch({
             shouldFocus: false,
           });
         });
+
+        // Wait for the DOM to be ready for button clicks
+        google.maps.event.addListenerOnce(infoWindow, "domready", () => {
+          const editButton = document.getElementById(`edit-btn-${disaster.id}`);
+          const deleteButton = document.getElementById(
+            `delete-btn-${disaster.id}`
+          );
+
+          editButton?.addEventListener("click", () => {
+            onEdit(disaster);
+            infoWindow.close();
+          });
+
+          deleteButton?.addEventListener("click", () => {
+            onDelete(disaster.id);
+            infoWindow.close();
+          });
+        });
       });
     };
 
     initializeMap();
-  }, [onClick, marker, disasters]);
+  }, [onClick, marker, disasters, onEdit, onDelete]);
 
   return <div className="h-full w-full rounded-2xl" ref={mapRef}></div>;
 }

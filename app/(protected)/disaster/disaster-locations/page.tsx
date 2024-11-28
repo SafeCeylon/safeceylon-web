@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -15,23 +15,46 @@ import add_icon from "@/public/assets/add_icon.svg";
 import DisasterForm, {
   DisasterFormData,
 } from "@/components/DisasterLocationForm";
+import axios from "axios";
 
 export default function Admin() {
   const [isAdding, setIsAdding] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
     longitude: number;
   } | null>(null);
 
-  // List of all disasters with their types and coordinates
+  const [editingDisaster, setEditingDisaster] = useState<{
+    id: string;
+    latitude: number;
+    longitude: number;
+    type: string;
+    radius: number;
+  } | null>(null);
+
   const [disasters, setDisasters] = useState<
     {
+      id: string;
       latitude: number;
       longitude: number;
       type: string;
       radius: number;
     }[]
   >([]);
+
+  const fetchDisasters = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/disasters");
+      setDisasters(response.data);
+    } catch (error) {
+      console.error("Error fetching disasters:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDisasters();
+  }, []);
 
   const handleMapClick = (latitude: number, longitude: number) => {
     if (isAdding) {
@@ -44,15 +67,56 @@ export default function Admin() {
     setSelectedLocation(null);
   };
 
+  const handleEditDisaster = (disaster: {
+    id: string;
+    latitude: number;
+    longitude: number;
+    type: string;
+    radius: number;
+  }) => {
+    setIsEditing(true);
+    setEditingDisaster(disaster);
+    setSelectedLocation({
+      latitude: disaster.latitude,
+      longitude: disaster.longitude,
+    });
+  };
+
+  const handleDeleteDisaster = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/disasters/${id}`);
+      setDisasters(disasters.filter((disaster) => disaster.id !== id));
+    } catch (error) {
+      console.error("Error deleting disaster:", error);
+    }
+  };
+
   const handleFormSubmit = (data: DisasterFormData) => {
-    console.log("Disaster data submitted:", data);
+    if (isEditing && editingDisaster) {
+      axios
+        .put(`http://localhost:8080/api/disasters/${editingDisaster.id}`, data)
+        .then((response) => {
+          setDisasters(
+            disasters.map((d) =>
+              d.id === editingDisaster.id ? response.data : d
+            )
+          );
+        })
+        .catch((error) => console.error("Error updating disaster:", error));
+    } else {
+      axios
+        .post("http://localhost:8080/api/disasters", data)
+        .then((response) => setDisasters([...disasters, response.data]))
+        .catch((error) => console.error("Error adding disaster:", error));
+    }
     setIsAdding(false);
-    setDisasters([...disasters, data]);
+    setIsEditing(false);
     setSelectedLocation(null);
   };
 
   const handleFormCancel = () => {
     setIsAdding(false);
+    setIsEditing(false);
     setSelectedLocation(null);
   };
 
@@ -73,16 +137,6 @@ export default function Admin() {
               />
               Add Disaster Location
             </Button>
-
-            <Select>
-              <SelectTrigger className="w-[180px] mr-4 rounded-full shadow-md shadow-gray-400">
-                <SelectValue placeholder="User Reports" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="user">User Reports</SelectItem>
-                <SelectItem value="dmc">DMC Reports</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="relative h-[90%]">
@@ -94,10 +148,12 @@ export default function Admin() {
 
             <GoogleMaps_forDisasterLocations
               onClick={handleMapClick}
-              disasters={disasters} // Pass disasters to render on map
+              disasters={disasters}
+              onEdit={handleEditDisaster}
+              onDelete={handleDeleteDisaster}
             />
 
-            {isAdding && selectedLocation && (
+            {(isAdding || isEditing) && selectedLocation && (
               <div
                 className="absolute bg-white shadow-lg rounded-lg p-4"
                 style={{
@@ -108,6 +164,8 @@ export default function Admin() {
                 <DisasterForm
                   latitude={selectedLocation.latitude}
                   longitude={selectedLocation.longitude}
+                  type={editingDisaster?.type}
+                  radius={editingDisaster?.radius}
                   onSubmit={handleFormSubmit}
                   onCancel={handleFormCancel}
                 />

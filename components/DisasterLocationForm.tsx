@@ -17,8 +17,10 @@ export interface DisasterFormData {
 }
 
 type DisasterFormProps = {
+  type?: string;
   latitude: number;
   longitude: number;
+  radius?: number;
   onSubmit: (data: DisasterFormData) => void;
   onCancel: () => void;
 };
@@ -46,25 +48,24 @@ const saveDisasterData = async (data: {
 };
 
 const DisasterForm: React.FC<DisasterFormProps> = ({
-  latitude: latitude,
-  longitude: longitude,
+  latitude,
+  longitude,
+  type: initialType,
+  radius: initialRadius,
   onSubmit,
   onCancel,
 }) => {
-  const [type, setType] = useState<string | null>(null);
-  const [radius, setRadius] = useState<number | null>(null);
+  const [type, setType] = useState<string | null>(initialType || null);
+  const [radius, setRadius] = useState<number | null>(initialRadius || null);
 
   const handleSubmit = () => {
     if (type && radius) {
-      const reportedAt = new Date().toISOString();
       const disasterData = {
         latitude,
         longitude,
         type,
         radius,
-        reportedAt,
       };
-      saveDisasterData(disasterData); // Save data to the backend
       onSubmit(disasterData);
     } else {
       alert("Please fill all the fields.");
@@ -73,11 +74,14 @@ const DisasterForm: React.FC<DisasterFormProps> = ({
 
   return (
     <div className="absolute p-4 bg-white shadow-lg rounded-lg">
-      <h3 className="mb-2 font-bold">Add Disaster Location</h3>
+      <h3 className="mb-2 font-bold">Add / Edit Disaster Location</h3>
       <p>Latitude: {latitude}</p>
       <p>Longitude: {longitude}</p>
 
-      <Select onValueChange={(value) => setType(value)}>
+      <Select
+        defaultValue={type || undefined}
+        onValueChange={(value) => setType(value)}
+      >
         <SelectTrigger className="w-full mt-2">
           <SelectValue placeholder="Select Disaster Type" />
         </SelectTrigger>
@@ -91,6 +95,7 @@ const DisasterForm: React.FC<DisasterFormProps> = ({
       <input
         type="number"
         placeholder="Enter radius (meters)"
+        value={radius || ""}
         className="mt-2 p-2 border rounded w-full"
         onChange={(e) => setRadius(Number(e.target.value))}
       />
