@@ -16,23 +16,26 @@ import DisasterForm, {
   DisasterFormData,
 } from "@/components/DisasterLocationForm";
 
-type DisasterType = "flood" | "landslide" | "hurricane";
-
 export default function Admin() {
   const [isAdding, setIsAdding] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<{
-    lat: number;
-    lng: number;
+    latitude: number;
+    longitude: number;
   } | null>(null);
 
   // List of all disasters with their types and coordinates
   const [disasters, setDisasters] = useState<
-    { lat: number; lng: number; type: DisasterType }[]
+    {
+      latitude: number;
+      longitude: number;
+      type: string;
+      radius: number;
+    }[]
   >([]);
 
-  const handleMapClick = (lat: number, lng: number) => {
+  const handleMapClick = (latitude: number, longitude: number) => {
     if (isAdding) {
-      setSelectedLocation({ lat, lng });
+      setSelectedLocation({ latitude, longitude });
     }
   };
 
@@ -98,13 +101,13 @@ export default function Admin() {
               <div
                 className="absolute bg-white shadow-lg rounded-lg p-4"
                 style={{
-                  top: `calc(50% + ${selectedLocation.lat * 0.1}px)`,
-                  left: `calc(50% + ${selectedLocation.lng * 0.1}px)`,
+                  top: `calc(50% + ${selectedLocation.latitude * 0.1}px)`,
+                  left: `calc(50% + ${selectedLocation.longitude * 0.1}px)`,
                 }}
               >
                 <DisasterForm
-                  lat={selectedLocation.lat}
-                  lng={selectedLocation.lng}
+                  latitude={selectedLocation.latitude}
+                  longitude={selectedLocation.longitude}
                   onSubmit={handleFormSubmit}
                   onCancel={handleFormCancel}
                 />

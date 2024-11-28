@@ -1,5 +1,3 @@
-// File: components/DisasterForm.tsx
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,47 +7,77 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { string } from "zod";
-
-type DisasterType = "flood" | "landslide" | "hurricane";
+import axios from "axios";
 
 export interface DisasterFormData {
-  lat: number;
-  lng: number;
-  type: DisasterType;
-  // details: string;
+  latitude: number;
+  longitude: number;
+  type: string;
+  radius: number; // New field for radius
 }
 
 type DisasterFormProps = {
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
   onSubmit: (data: DisasterFormData) => void;
   onCancel: () => void;
 };
 
+const saveDisasterData = async (data: {
+  latitude: number;
+  longitude: number;
+  type: string;
+  radius: number;
+}) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/disasters",
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log("Data saved successfully:", response.data);
+  } catch (error) {
+    console.log("Error saving disaster data:", error);
+  }
+};
+
 const DisasterForm: React.FC<DisasterFormProps> = ({
-  lat,
-  lng,
+  latitude: latitude,
+  longitude: longitude,
   onSubmit,
   onCancel,
 }) => {
-  const [disasterType, setDisasterType] = useState<DisasterType | null>(null);
+  const [type, setType] = useState<string | null>(null);
+  const [radius, setRadius] = useState<number | null>(null);
 
   const handleSubmit = () => {
-    if (disasterType) {
-      onSubmit({ lat, lng, type: disasterType });
+    if (type && radius) {
+      const reportedAt = new Date().toISOString();
+      const disasterData = {
+        latitude,
+        longitude,
+        type,
+        radius,
+        reportedAt,
+      };
+      saveDisasterData(disasterData); // Save data to the backend
+      onSubmit(disasterData);
     } else {
-      alert("Please select a disaster type.");
+      alert("Please fill all the fields.");
     }
   };
 
   return (
     <div className="absolute p-4 bg-white shadow-lg rounded-lg">
       <h3 className="mb-2 font-bold">Add Disaster Location</h3>
-      <p>Latitude: {lat}</p>
-      <p>Longitude: {lng}</p>
+      <p>Latitude: {latitude}</p>
+      <p>Longitude: {longitude}</p>
 
-      <Select onValueChange={(value) => setDisasterType(value as DisasterType)}>
+      <Select onValueChange={(value) => setType(value)}>
         <SelectTrigger className="w-full mt-2">
           <SelectValue placeholder="Select Disaster Type" />
         </SelectTrigger>
@@ -59,6 +87,13 @@ const DisasterForm: React.FC<DisasterFormProps> = ({
           <SelectItem value="hurricane">Hurricane</SelectItem>
         </SelectContent>
       </Select>
+
+      <input
+        type="number"
+        placeholder="Enter radius (meters)"
+        className="mt-2 p-2 border rounded w-full"
+        onChange={(e) => setRadius(Number(e.target.value))}
+      />
 
       <Button className="mt-4 w-full" onClick={handleSubmit}>
         Submit

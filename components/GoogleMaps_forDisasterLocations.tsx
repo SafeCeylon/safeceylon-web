@@ -5,22 +5,26 @@ import { Loader } from "@googlemaps/js-api-loader";
 import images from "../constants/images";
 import { StaticImageData } from "next/image";
 
-type DisasterType = "flood" | "landslide" | "hurricane";
-
 interface GoogleMapsWithSearchProps {
   onClick: (lat: number, lng: number) => void;
   disasters: {
-    lat: number;
-    lng: number;
-    type: DisasterType;
-    // details: string;
-  }[]; // Add `details` property
+    latitude: number;
+    longitude: number;
+    type: string;
+    radius: number; // Include radius for circle drawing
+  }[];
 }
 
-const disasterIcons: Record<DisasterType, StaticImageData> = {
+const disasterIcons: Record<string, StaticImageData> = {
   flood: images.Flood,
   landslide: images.Landslide,
   hurricane: images.Hurricane,
+};
+
+const disasterColors: Record<string, string> = {
+  flood: "#ADD8E6", // Light blue
+  landslide: "#D2B48C", // Light brown
+  hurricane: "#D3D3D3", // Light gray
 };
 
 function createCustomIcon(iconUrl: string): google.maps.Icon {
@@ -47,21 +51,20 @@ export default function GoogleMaps_withSearch({
         libraries: ["places"],
       });
 
-      const { Map, InfoWindow } = await loader.importLibrary("maps");
+      await loader.load();
 
-      const map = new Map(mapRef.current as HTMLDivElement, {
+      const map = new google.maps.Map(mapRef.current as HTMLDivElement, {
         center: { lat: 7.8731, lng: 80.7718 },
         zoom: 8,
-        mapTypeId: "roadmap", // Use "roadmap" to show only the roads and markers
-        disableDefaultUI: true, // Disable all default UI elements (like places)
-        zoomControl: true, // Enable zoom control
-        streetViewControl: false, // Disable street view
-        mapTypeControl: false, // Disable map type control
-        fullscreenControl: false, // Disable fullscreen control
-        gestureHandling: "cooperative", // Enable map gestures
+        mapTypeId: "roadmap",
+        disableDefaultUI: true,
+        zoomControl: true,
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
+        gestureHandling: "cooperative",
       });
 
-      // Add custom map styles to hide POIs (like restaurants, shops, etc.)
       map.setOptions({
         styles: [
           {
@@ -71,6 +74,14 @@ export default function GoogleMaps_withSearch({
           {
             featureType: "landscape",
             stylers: [{ visibility: "simplified" }],
+          },
+          {
+            featureType: "road",
+            stylers: [{ visibility: "simplified" }],
+          },
+          {
+            featureType: "transit",
+            stylers: [{ visibility: "off" }],
           },
         ],
       });
@@ -95,21 +106,29 @@ export default function GoogleMaps_withSearch({
         }
       });
 
-      // Place markers for each disaster with specific icons
       disasters.forEach((disaster) => {
         const disasterMarker = new google.maps.Marker({
-          position: { lat: disaster.lat, lng: disaster.lng },
+          position: { lat: disaster.latitude, lng: disaster.longitude },
           map,
           icon: createCustomIcon(disasterIcons[disaster.type].src),
           title: `Disaster Type: ${disaster.type}`,
         });
 
-        // Create an InfoWindow for the disaster details
-        const infoWindow = new InfoWindow({
-          content: `<div><strong>Type:</strong> ${disaster.type}<br><strong>Details:</strong></div>`,
+        new google.maps.Circle({
+          center: { lat: disaster.latitude, lng: disaster.longitude },
+          radius: disaster.radius,
+          fillColor: disasterColors[disaster.type],
+          fillOpacity: 0.4,
+          strokeColor: disasterColors[disaster.type],
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+          map,
         });
 
-        // Show InfoWindow when marker is clicked
+        const infoWindow = new google.maps.InfoWindow({
+          content: `<div><strong>Type:</strong> ${disaster.type}<br><strong>Radius:</strong> ${disaster.radius} meters</div>`,
+        });
+
         disasterMarker.addListener("click", () => {
           infoWindow.open({
             anchor: disasterMarker,
