@@ -59,7 +59,6 @@ export default function GoogleMaps_forDisasterLocations({
       const loader = new Loader({
         apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
         version: "weekly",
-        libraries: ["places"],
       });
 
       await loader.load();
