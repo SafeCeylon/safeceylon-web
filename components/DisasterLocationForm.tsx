@@ -13,7 +13,8 @@ export interface DisasterFormData {
   latitude: number;
   longitude: number;
   type: string;
-  radius: number; // New field for radius
+  radius: number;
+  reportedBy?: string;
 }
 
 type DisasterFormProps = {
@@ -21,6 +22,7 @@ type DisasterFormProps = {
   latitude: number;
   longitude: number;
   radius?: number;
+  reportedBy?: string;
   onSubmit: (data: DisasterFormData) => void;
   onCancel: () => void;
 };
@@ -30,6 +32,7 @@ const saveDisasterData = async (data: {
   longitude: number;
   type: string;
   radius: number;
+  reportedBy?: string;
 }) => {
   try {
     const response = await axios.post(
@@ -52,6 +55,7 @@ const DisasterForm: React.FC<DisasterFormProps> = ({
   longitude,
   type: initialType,
   radius: initialRadius,
+  reportedBy = "admin",
   onSubmit,
   onCancel,
 }) => {
@@ -65,6 +69,7 @@ const DisasterForm: React.FC<DisasterFormProps> = ({
         longitude,
         type,
         radius,
+        reportedBy,
       };
       onSubmit(disasterData);
     } else {

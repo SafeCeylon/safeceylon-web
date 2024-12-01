@@ -2,13 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import GoogleMaps_forDisasterLocations from "@/components/GoogleMaps_forDisasterLocations";
 import Image from "next/image";
 import add_icon from "@/public/assets/add_icon.svg";
@@ -31,6 +24,9 @@ export default function Admin() {
     longitude: number;
     type: string;
     radius: number;
+    reportedAt: string;
+    resolved: boolean;
+    reportedBy: string;
   } | null>(null);
 
   const [disasters, setDisasters] = useState<
@@ -40,6 +36,9 @@ export default function Admin() {
       longitude: number;
       type: string;
       radius: number;
+      reportedAt: string;
+      resolved: boolean;
+      reportedBy: string;
     }[]
   >([]);
 
@@ -73,6 +72,9 @@ export default function Admin() {
     longitude: number;
     type: string;
     radius: number;
+    reportedAt: string;
+    resolved: boolean;
+    reportedBy: string;
   }) => {
     setIsEditing(true);
     setEditingDisaster(disaster);
@@ -92,9 +94,18 @@ export default function Admin() {
   };
 
   const handleFormSubmit = (data: DisasterFormData) => {
+    const reportedAt = new Date().toISOString();
+    const disasterData = {
+      ...data,
+      reportedBy: data.reportedBy || "admin",
+      reportedAt,
+    };
     if (isEditing && editingDisaster) {
       axios
-        .put(`http://localhost:8080/api/disasters/${editingDisaster.id}`, data)
+        .put(
+          `http://localhost:8080/api/disasters/${editingDisaster.id}`,
+          disasterData
+        )
         .then((response) => {
           setDisasters(
             disasters.map((d) =>
@@ -105,7 +116,7 @@ export default function Admin() {
         .catch((error) => console.error("Error updating disaster:", error));
     } else {
       axios
-        .post("http://localhost:8080/api/disasters", data)
+        .post("http://localhost:8080/api/disasters", disasterData)
         .then((response) => setDisasters([...disasters, response.data]))
         .catch((error) => console.error("Error adding disaster:", error));
     }

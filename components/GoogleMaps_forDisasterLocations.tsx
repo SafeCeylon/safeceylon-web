@@ -12,7 +12,10 @@ interface GoogleMapsWithSearchProps {
     latitude: number;
     longitude: number;
     type: string;
-    radius: number; // Include radius for circle drawing
+    radius: number;
+    reportedAt: string;
+    resolved: boolean;
+    reportedBy: string; // Include radius for circle drawing
   }[];
   onEdit: (disaster: {
     id: string;
@@ -20,20 +23,23 @@ interface GoogleMapsWithSearchProps {
     longitude: number;
     type: string;
     radius: number;
+    reportedAt: string;
+    resolved: boolean;
+    reportedBy: string;
   }) => void;
   onDelete: (id: string) => void;
 }
 
 const disasterIcons: Record<string, StaticImageData> = {
-  flood: images.Flood,
-  landslide: images.Landslide,
-  hurricane: images.Hurricane,
+  Flood: images.Flood,
+  Landslide: images.Landslide,
+  Hurricane: images.Hurricane,
 };
 
 const disasterColors: Record<string, string> = {
-  flood: "#ADD8E6", // Light blue
-  landslide: "#D2B48C", // Light brown
-  hurricane: "#D3D3D3", // Light gray
+  Flood: "#ADD8E6", // Light blue
+  Landslide: "#D2B48C", // Light brown
+  Hurricane: "#D3D3D3", // Light gray
 };
 
 function createCustomIcon(iconUrl: string): google.maps.Icon {
@@ -53,6 +59,8 @@ export default function GoogleMaps_forDisasterLocations({
 }: GoogleMapsWithSearchProps) {
   const mapRef = React.useRef<HTMLDivElement>(null);
   const [marker, setMarker] = useState<google.maps.Marker | null>(null);
+
+  console.log("From Google Map File: ", disasters);
 
   useEffect(() => {
     const initializeMap = async () => {
