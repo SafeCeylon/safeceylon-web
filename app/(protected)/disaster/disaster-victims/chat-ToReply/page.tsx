@@ -10,19 +10,6 @@ import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
 import { set } from "zod";
 
-// var UserId = "null";  // Default value for userId
-// const currentUrl = window.location.href;
-//   let urlPart = currentUrl.split("chat-ToReply")[1];  // Gets the part after "chat-ToReply"
-//   console.log(urlPart);
-
-//   if(urlPart !== ""){
-//     const userId = urlPart.split("=")[1];  // Gets the userId
-//     console.log("userId: ", userId);
-//     UserId = userId;
-//   }else{
-//     console.log("No userId found");
-//   }
-
 export default function Admin() {
   const [message, setMessage] = useState("");
   const [UserId, setUserId] = useState("null");
@@ -92,30 +79,41 @@ export default function Admin() {
     {
       id: string;
       type: string;
+      radius: string;
     }[]
   >([]);
 
-  const [chatMessages, setChatMessages] = useState<{
-    owner: string;
-    message: string;
-  }[]
+  const [chatMessages, setChatMessages] = useState<
+    {
+      owner: string;
+      message: string;
+    }[]
   >([]);
 
-  const[VictimName, setVictimName] = useState("");
+  const [VictimImage, setVictimImage] = useState("");
+
+  const [VictimName, setVictimName] = useState("");
 
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [mobile_number, setMobileNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
 
   const handleClick = async (userId: string) => {
     try {
       const response = await axios.get(
         `http://localhost:8080/api/disaster/disaster-victims/chat-ToReply?UserId=${userId}`
       );
-      console.log("Victim Name: ", response.data.victim_name);
-      console.log("Disasters: ", response.data.disasters);
-      console.log("Chat Messages: ", response.data.chat_messages);
+      console.log(response.data);
+
       setVictimName(response.data.victim_name);
       setDisasters(response.data.disasters);
       setChatMessages(response.data.chat_messages);
+      setVictimImage(response.data.victim_image);
+      setMobileNumber(response.data.mobile_number);
+      setEmail(response.data.email);
+      setAddress(response.data.address);
       setUserId(userId);
     } catch (error) {
       console.error("Error fetching victim stats:", error);
@@ -180,25 +178,30 @@ export default function Admin() {
                 />
               </div>
 
-              <div className="h-5/6 pl-9 flex flex-col gap-2 overflow-y-auto custom-scrollbar">
+              <div className="h-5/6 pl-9 flex flex-col gap-2 overflow-y-auto custom-scrollbar w-full">
                 {filteredUsers.map((user) => (
                   // console.log(`/api/disaster/disaster-victims/chat-ToReply?UserId=${user.id}`),
-                  <a
-                    key={user.id}
-                    className="w-1/3"
-                    onClick={() => handleClick(user.id)}
-                  >
-                    <div className="flex flex-row items-center gap-3">
-                      <Avatar>
-                        <AvatarImage
-                          className="scale-150"
-                          src={user.image || "/assets/default_profile_pic.png"}
-                        />
-                        <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <p>{user.name}</p>
-                    </div>
-                  </a>
+
+                  <div className="relative bg-slate-100 rounded-2xl mr-8  hover:bg-slate-200 transition-all duration-300 cursor-pointer">
+                    <a
+                      key={user.id}
+                      className="w-1/3"
+                      onClick={() => handleClick(user.id)}
+                    >
+                      <div className="flex flex-row items-center gap-3">
+                        <Avatar>
+                          <AvatarImage
+                            className="scale-150"
+                            src={
+                              user.image || "/assets/default_profile_pic.png"
+                            }
+                          />
+                          <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                        </Avatar>
+                        <p>{user.name}</p>
+                      </div>
+                    </a>
+                  </div>
                 ))}
               </div>
             </div>
@@ -209,38 +212,49 @@ export default function Admin() {
                   <Avatar>
                     <AvatarImage
                       className="scale-150"
-                      src="/assets/default_profile_pic.png"
+                      src={VictimImage || "/assets/default_profile_pic.png"}
                     />
-                    <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                   <p>{VictimName}</p>
                 </div>
               </div>
 
-              <div className="bg-slate-100 h-[75%] mx-7 rounded-2xl">
-                {
-                  <div className="p-5">
-                    {chatMessages.map((chatMessage) => (
-                      <div className="flex flex-col gap-2">
-                        <p>{chatMessage.owner}</p>
-                        <p>{chatMessage.message}</p>
-                      </div>
-                    ))}
+              <div className="bg-slate-100 h-[75%] mx-7 rounded-2xl overflow-y-auto flex flex-col px-5 pt-2">
+                {chatMessages.map((chatMessage) => (
+                  <div
+                    className={`flex mb-2 ${
+                      chatMessage.owner === "DMC_OFFICER"
+                        ? "justify-end bg"
+                        : "justify-start"
+                    }`}
+                  >
+                    <div
+                      className={`flex flex-co p-2 rounded max-w-[66.67%] min-w-[20%] 
+                    ${
+                      chatMessage.owner === "DMC_OFFICER"
+                        ? "bg-slate-200"
+                        : "bg-slate-300"
+                    }
+                      `}
+                    >
+                      {/* <p>{chatMessage.owner}</p> */}
+                      <p>{chatMessage.message}</p>
+                    </div>
                   </div>
-                }
+                ))}
               </div>
 
-              <div className="h-[13%] mx-7 pt-5">
+              <div className="h-[13%] px-7 pt-5 flex flex-row gap-2 w-full align-top">
                 <Input
                   type="text"
                   placeholder="Write your message"
                   value={message}
                   onChange={handleInputChange}
-                  className="border rounded-md bg-slate-100 w-full"
+                  className="border rounded-md bg-slate-100"
                 />
-                <div className="mt-2">
+                <div className="h-full w-2/12">
                   <button
-                    className="bg-blue-500 text-white p-2 rounded-md"
+                    className="bg-blue-500 text-white w-full py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition-all duration-300"
                     onClick={handleSendMessage}
                   >
                     Send
@@ -250,42 +264,54 @@ export default function Admin() {
             </div>
 
             <div className="h-full w-1/4 bg-white rounded-2xl shadow-md shadow-gray-400">
-              <div className="h-2/5 flex flex-col items-center justify-center">
-                <Image
-                  src={DefaultProfilePic}
-                  alt="Logo1"
-                  className="h-4/6 w-auto"
-                />
-                <p className="mt-[-10px] text-lg font-bold">Use Name</p>
+              <div className="h-2/5 flex flex-col p-5">
+                <div className="bg-slate-100 h-full rounded-2xl w-full p-5">
+                  <div className="flex justify-center">
+                    <p className="mt-[-10px] text-lg font-bold">
+                      {VictimName || "Disaster Victim Name"}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col justify-start items-start">
+                    <div className="flex flex-col justify-start items-start">
+                      <b>
+                        <p className="text-center">Mobile Number</p>
+                      </b>
+                      <p className="text-center">{mobile_number}</p>
+                    </div>
+                    <div className="flex flex-col justify-start items-start">
+                      <b>
+                        <p className="text-center">Email</p>
+                      </b>
+                      <p className="text-center">{email}</p>
+                    </div>
+                    <div className="flex flex-col justify-start items-start">
+                      <b>
+                        <p className="text-center">Address</p>
+                      </b>
+                      <p className="text-center">{address}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="h-3/5 p-5 pt-0">
                 <div className="bg-slate-100 h-full rounded-2xl">
                   <p className="text-center font-bold pt-5">
-                    Disaster Information
+                    Disasters Information
                   </p>
 
-                  {/* {disaster && (
-                    <>
-                      <p>id: {disaster?.id}</p>
-                      <p>type: {disaster?.type} </p>
-                      <p>latitude: {disaster?.latitude}</p>
-                      <p>longitude: {disaster?.longitude}</p>
-                      <p>radius: {disaster?.radius}</p>
-                      <p>reportedAt: {disaster?.reportedAt}</p>
-                      <p>resolved: {disaster?.resolved}</p>
-                    </>
-                  )} */}
-
                   {
-                    <div className="p-5">
+                    <div className="p-5 flex flex-col overflow-y-auto h-5/6">
                       {disasters.map((disaster) => (
-                        <div className="flex flex-col gap-2">
-                          {/* <p>id: {disaster.id}</p> */}
+                        <div className="flex flex-col pb-3">
+                          <b>Dsaster {disasters.indexOf(disaster) + 1}</b>
                           <p>type: {disaster.type}</p>
+                          <p>radius: {disaster.radius}m</p>
+
+                          {/* <p>id: {disaster.id}</p> */}
                           {/* <p>latitude: {disaster.latitude}</p>
                           <p>longitude: {disaster.longitude}</p>
-                          <p>radius: {disaster.radius}</p>
                           <p>reportedAt: {disaster.reportedAt}</p>
                           <p>resolved: {disaster.resolved}</p> */}
                         </div>
