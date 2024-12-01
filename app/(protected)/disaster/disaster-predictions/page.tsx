@@ -123,7 +123,7 @@ const DisasterPredictions: React.FC = () => {
       >
         <div>
           <p className="text-lg font-semibold">Upload {fileType}</p>
-          <input type="file" accept=".pdf" onChange={handleFileChange} />
+          <input type="file" accept=".csv" onChange={handleFileChange} />
         </div>
       </Modal>
     </div>

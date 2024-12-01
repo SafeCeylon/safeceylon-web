@@ -254,7 +254,6 @@ export default function OfficerForm({
             />
           </div>
         </div>
-
         <div className="space-y-2">
           <InputField
             label="Mobile Number"
