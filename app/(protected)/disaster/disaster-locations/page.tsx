@@ -42,6 +42,8 @@ export default function Admin() {
     }[]
   >([]);
 
+  const [filter, setFilter] = useState("all"); // all, dmc, user
+
   const fetchDisasters = async () => {
     try {
       const response = await axios.get("http://localhost:8080/api/disasters");
@@ -131,6 +133,14 @@ export default function Admin() {
     setSelectedLocation(null);
   };
 
+  const filteredDisasters = disasters.filter((disaster) => {
+    const reportedBy = disaster.reportedBy?.toLowerCase() || ""; // Safely handle null or undefined
+    if (filter === "all") return true;
+    if (filter === "dmc" && reportedBy === "admin") return true;
+    if (filter === "user" && reportedBy === "user") return true;
+    return false;
+  });
+
   return (
     <div className="px-8 md:px-24 flex h-4/5 w-full gap-20">
       <div className="flex flex-col w-full gap-14 h-full">
@@ -148,6 +158,15 @@ export default function Admin() {
               />
               Add Disaster Location
             </Button>
+            <select
+              className="border border-gray-300 rounded-md px-4 py-1 text-sm font-medium"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option value="all">All Reports</option>
+              <option value="dmc">DMC Reports</option>
+              <option value="user">User Reports</option>
+            </select>
           </div>
 
           <div className="relative h-[90%]">
@@ -159,7 +178,7 @@ export default function Admin() {
 
             <GoogleMaps_forDisasterLocations
               onClick={handleMapClick}
-              disasters={disasters}
+              disasters={filteredDisasters} // Pass filtered disasters
               onEdit={handleEditDisaster}
               onDelete={handleDeleteDisaster}
             />

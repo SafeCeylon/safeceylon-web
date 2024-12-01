@@ -111,7 +111,9 @@ export default function OfficerDetails() {
                   <button
                     onClick={async () => {
                       try {
-                        await axios.delete(`/api/users/${officer.id}`);
+                        await axios.delete(
+                          `http://localhost:8080/api/users/${officer.id}`
+                        );
                         setOfficers((prev) =>
                           prev.filter((item) => item.id !== officer.id)
                         );
@@ -135,7 +137,7 @@ export default function OfficerDetails() {
 
           {isFormVisible && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ">
-              <div className="bg-white w-[90%] md:w-[50%] rounded-lg shadow-lg flex flex-col p-2 h-[85%]">
+              <div className="bg-white w-[90%] md:w-[50%] rounded-lg shadow-lg flex flex-col p-2 h-[85%] overflow-auto">
                 <button
                   className="text-red-500 flex w-full justify-end"
                   onClick={() => setIsFormVisible(false)}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import DefaultOfficerImage from "@/public/assets/default_officer_image.png";
@@ -15,6 +15,8 @@ interface FormData {
   password: string;
   role: string;
   image: string | null;
+  latitude: number;
+  longitude: number;
 }
 
 export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
@@ -28,10 +30,68 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
     password: "",
     role: "DISASTER_OFFICER",
     image: null,
+    latitude: 6.9271, // Default to Colombo, Sri Lanka
+    longitude: 79.8612,
   });
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+
+  useEffect(() => {
+    // Initialize Google Map
+    const googleMapsScript = document.createElement("script");
+    googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_MAPS_API_KEY}`;
+    googleMapsScript.async = true;
+    googleMapsScript.onload = () => {
+      const mapInstance = new google.maps.Map(
+        document.getElementById("map-container") as HTMLElement,
+        {
+          center: { lat: formData.latitude, lng: formData.longitude },
+          zoom: 12,
+        }
+      );
+
+      const marker = new google.maps.Marker({
+        position: { lat: formData.latitude, lng: formData.longitude },
+        map: mapInstance,
+        draggable: true,
+      });
+
+      marker.addListener("dragend", () => {
+        const position = marker.getPosition();
+        if (position) {
+          // Ensure position is not null
+          setFormData((prev) => ({
+            ...prev,
+            latitude: position.lat(),
+            longitude: position.lng(),
+          }));
+        }
+      });
+
+      mapInstance.addListener("click", (e: google.maps.MapMouseEvent) => {
+        if (e.latLng) {
+          // Check if e.latLng is not null
+          marker.setPosition(e.latLng);
+          setFormData((prev) => ({
+            ...prev,
+            latitude: e.latLng.lat(),
+            longitude: e.latLng.lng(),
+          }));
+        }
+      });
+
+      setMap(mapInstance);
+    };
+
+    document.head.appendChild(googleMapsScript);
+    return () => {
+      if (googleMapsScript.parentNode) {
+        googleMapsScript.parentNode.removeChild(googleMapsScript);
+      }
+    };
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -69,6 +129,8 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
       newErrors.mobileNumber = "Mobile Number is required.";
     else if (!/^\d{10}$/.test(formData.mobileNumber))
       newErrors.mobileNumber = "Mobile Number must be 10 digits.";
+    if (!formData.latitude || !formData.longitude)
+      newErrors.location = "Please select a location on the map.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -81,7 +143,7 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
     setIsSubmitting(true);
 
     try {
-      await axios.post("http://localhost:8080/api/users", formData, {
+      await axios.post("http://localhost:8080/api/users/register", formData, {
         headers: { "Content-Type": "application/json" },
       });
       alert("Officer added successfully!");
@@ -96,6 +158,8 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
         password: "",
         role: "DISASTER_OFFICER",
         image: null,
+        latitude: 6.9271, // Reset to default location
+        longitude: 79.8612,
       });
       setProfileImage(null);
     } catch (error: any) {
@@ -191,6 +255,31 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
             value={formData.address}
             onChange={handleChange}
           />
+        </div>
+        <div className="space-y-2">
+          <label className="block text-gray-700 font-medium mb-1">
+            Location (Click or drag marker on map)
+          </label>
+          <div id="map-container" className="h-64 border rounded"></div>
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="text"
+              readOnly
+              value={formData.latitude}
+              placeholder="Latitude"
+              className="w-full border rounded px-3 py-2"
+            />
+            <input
+              type="text"
+              readOnly
+              value={formData.longitude}
+              placeholder="Longitude"
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+          {errors.location && (
+            <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+          )}
         </div>
       </div>
       <button
