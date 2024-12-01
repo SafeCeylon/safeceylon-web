@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import RequestCard from '@/components/RequestCard';
 import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
 import { Progress } from '@/components/ui/progress';
@@ -8,6 +9,7 @@ import { TrendingUp } from 'lucide-react';
 import { Pie, PieChart } from 'recharts';
 
 import Link from 'next/link';
+import axios from "axios";
 
 import {
   Card,
@@ -23,18 +25,13 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
+import { useState } from 'react';
 
 // 3 float values fo "To Reply", "Replied", "Closed"
-const ToReply = 60;
-const Replied = 40;
-const Closed = 20;
-const max_progress = ToReply + Replied + Closed;
-
-const chartData = [
-  { browser: 'To Reply', visitors: ToReply, fill: '#6CE5E8' },
-  { browser: 'Replied', visitors: Replied, fill: '#41B8D5' },
-  { browser: 'Closed', visitors: Closed, fill: '#2D8BBA' },
-];
+var ToReply = 0;
+var Replied = 0;
+var Closed = 0
+var max_progress = 0;
 
 const chartConfig = {
   visitors: {
@@ -55,11 +52,49 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function Admin() {
+
+  // state for the number of requests for each status in json format
+  const [victimStats, setVictimStats] = useState<{
+    ToReply: number;
+    Replied: number;
+    Closed: number
+  } | null>(null);
+
+  // fetch the number of requests for each status
+  const fetchVictimStats = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/disaster/disaster-victims");
+      setVictimStats(response.data);
+    } catch (error) {
+      console.error("Error fetching victim stats:", error);
+    }
+  };
+
+  // fetch the number of requests for each status on page load
+  useEffect(() => {
+    fetchVictimStats();
+  }, []);
+
+  // set the number of requests for each status
+  console.log(victimStats);
+  if (victimStats) {
+    ToReply = victimStats.ToReply;
+    Replied = victimStats.Replied;
+    Closed = victimStats.Closed;
+    max_progress = ToReply + Replied + Closed;
+  }
+
+  const chartData = [
+    { browser: 'To Reply', visitors: ToReply, fill: '#6CE5E8' },
+    { browser: 'Replied', visitors: Replied, fill: '#41B8D5' },
+    { browser: 'Closed', visitors: Closed, fill: '#2D8BBA' },
+  ];
+
   return (
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-10">
       <div className="w-full flex bg-white flex-col gap-10 rounded-2xl">
         <div className="w-full flex flex-row gap-10 p-10 pb-0 h-1/4">
-          <Link className="w-1/3" href={'/disaster/disaster-victims/chat/'}>
+          <Link className="w-1/3" href={'/disaster/disaster-victims/chat-ToReply'}>
             <div className="w-full bg-ToReply h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
               <div className="w-4/5 flex flex-col justify-center rounded-2xl">
                 <p className="pl-5 pb-5 text-active font-bold text-2xl">
