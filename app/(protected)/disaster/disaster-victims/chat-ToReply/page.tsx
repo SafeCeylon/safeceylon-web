@@ -8,6 +8,7 @@ import Image from "next/image";
 import DefaultProfilePic from "@/public/assets/default_profile_pic.png";
 import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
+import { set } from "zod";
 
 // var UserId = "null";  // Default value for userId
 // const currentUrl = window.location.href;
@@ -31,48 +32,49 @@ export default function Admin() {
   };
 
   // Type for the response data
-interface SendMessageResponse {
-  message: string;
-  // Add any other fields that might be returned from the server if needed
-}
-
-const handleSendMessage = async (): Promise<void> => {
-  // Type check for message (assuming message is a string)
-  if (!message.trim()) {
-    alert("Message cannot be empty!");
-    return;
+  interface SendMessageResponse {
+    message: string;
+    // Add any other fields that might be returned from the server if needed
   }
 
-  try {
-    // Making POST request with axios
-    const response: AxiosResponse<SendMessageResponse> = await axios.post(
-      "http://localhost:8080/api/disaster/disaster-victims/chat-ToReply",
-      {
-        message: message,
-        UserId : UserId
-      }
-    );
-
-    // Handle successful response
-    console.log("Message sent:", response.data);
-    setMessage(""); // Clear input field
-
-  } catch (error: any) {
-    if (error.response) {
-      // The server responded with a status outside of 2xx
-      console.error("Error response:", error.response.data);
-      alert("Failed to send message: " + error.response.data);
-    } else if (error.request) {
-      // The request was made but no response was received
-      console.error("Error request:", error.request);
-      alert("Failed to send message: No response from server");
-    } else {
-      // Something else happened
-      console.error("Error:", error.message);
-      alert("An unexpected error occurred: " + error.message);
+  const handleSendMessage = async (): Promise<void> => {
+    // Type check for message (assuming message is a string)
+    if (!message.trim()) {
+      alert("Message cannot be empty!");
+      return;
     }
-  }
-};
+
+    try {
+      // Making POST request with axios
+      const response: AxiosResponse<SendMessageResponse> = await axios.post(
+        "http://localhost:8080/api/disaster/disaster-victims/chat-ToReply",
+        {
+          message: message,
+          UserId: UserId,
+        }
+      );
+
+      // Handle successful response
+      console.log("Message sent:", response.data);
+      setMessage(""); // Clear input field
+
+      window.location.reload(); // Reload the page to fetch the updated data
+    } catch (error: any) {
+      if (error.response) {
+        // The server responded with a status outside of 2xx
+        console.error("Error response:", error.response.data);
+        alert("Failed to send message: " + error.response.data);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("Error request:", error.request);
+        alert("Failed to send message: No response from server");
+      } else {
+        // Something else happened
+        console.error("Error:", error.message);
+        alert("An unexpected error occurred: " + error.message);
+      }
+    }
+  };
 
   const [users, setUsers] = useState<
     {
@@ -90,13 +92,16 @@ const handleSendMessage = async (): Promise<void> => {
     {
       id: string;
       type: string;
-      latitude: string;
-      longitude: string;
-      radius: string;
-      reportedAt: string;
-      resolved: string;
     }[]
   >([]);
+
+  const [chatMessages, setChatMessages] = useState<{
+    owner: string;
+    message: string;
+  }[]
+  >([]);
+
+  const[VictimName, setVictimName] = useState("");
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -105,8 +110,12 @@ const handleSendMessage = async (): Promise<void> => {
       const response = await axios.get(
         `http://localhost:8080/api/disaster/disaster-victims/chat-ToReply?UserId=${userId}`
       );
-      console.log(response.data);
-      setDisasters(response.data);
+      console.log("Victim Name: ", response.data.victim_name);
+      console.log("Disasters: ", response.data.disasters);
+      console.log("Chat Messages: ", response.data.chat_messages);
+      setVictimName(response.data.victim_name);
+      setDisasters(response.data.disasters);
+      setChatMessages(response.data.chat_messages);
       setUserId(userId);
     } catch (error) {
       console.error("Error fetching victim stats:", error);
@@ -118,7 +127,7 @@ const handleSendMessage = async (): Promise<void> => {
       const response = await axios.get(
         `http://localhost:8080/api/disaster/disaster-victims/chat-ToReply`
       );
-      console.log(response.data);
+      // console.log(response.data);
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching victim stats:", error);
@@ -204,19 +213,28 @@ const handleSendMessage = async (): Promise<void> => {
                     />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
-                  <p>Use Name</p>
+                  <p>{VictimName}</p>
                 </div>
               </div>
 
               <div className="bg-slate-100 h-[75%] mx-7 rounded-2xl">
-                {/* Chat content goes here */}
+                {
+                  <div className="p-5">
+                    {chatMessages.map((chatMessage) => (
+                      <div className="flex flex-col gap-2">
+                        <p>{chatMessage.owner}</p>
+                        <p>{chatMessage.message}</p>
+                      </div>
+                    ))}
+                  </div>
+                }
               </div>
 
               <div className="h-[13%] mx-7 pt-5">
                 <Input
                   type="text"
                   placeholder="Write your message"
-                  value={message} 
+                  value={message}
                   onChange={handleInputChange}
                   className="border rounded-md bg-slate-100 w-full"
                 />
