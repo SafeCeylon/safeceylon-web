@@ -6,8 +6,8 @@ import axios from "axios";
 import DefaultOfficerImage from "@/public/assets/default_officer_image.png";
 
 interface FormData {
+  id: string;
   name: string;
-  employeeNumber: string;
   nic: string;
   email: string;
   mobileNumber: string;
@@ -19,20 +19,45 @@ interface FormData {
   longitude: number;
 }
 
-export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
+export default function OfficerForm({
+  officerData,
+  onSuccess,
+}: {
+  officerData?: FormData | null;
+  onSuccess: () => void;
+}) {
   const [formData, setFormData] = useState<FormData>({
-    name: "",
-    employeeNumber: "",
-    nic: "",
-    email: "",
-    mobileNumber: "",
-    address: "",
+    id: officerData?.id || "",
+    name: officerData?.name || "",
+    nic: officerData?.nic || "",
+    email: officerData?.email || "",
+    mobileNumber: officerData?.mobileNumber || "",
+    address: officerData?.address || "",
     password: "",
-    role: "DISASTER_OFFICER",
-    image: null,
-    latitude: 6.9271, // Default to Colombo, Sri Lanka
-    longitude: 79.8612,
+    role: officerData?.role || "DISASTER_OFFICER",
+    image: officerData?.image || null,
+    latitude: officerData?.latitude || 6.9271,
+    longitude: officerData?.longitude || 79.8612,
   });
+
+  useEffect(() => {
+    if (officerData) {
+      setFormData({
+        id: officerData.id,
+        name: officerData.name,
+        nic: officerData.nic,
+        email: officerData.email,
+        mobileNumber: officerData.mobileNumber,
+        address: officerData.address,
+        password: "",
+        role: officerData.role,
+        image: officerData.image || null,
+        latitude: officerData.latitude || 6.9271,
+        longitude: officerData.longitude || 79.8612,
+      });
+    }
+  }, [officerData]);
+
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -118,19 +143,21 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required.";
-    if (!formData.employeeNumber.trim())
-      newErrors.employeeNumber = "Employee Number is required.";
-    if (!formData.nic.trim()) newErrors.nic = "NIC is required.";
-    if (!formData.email.trim()) newErrors.email = "Email is required.";
-    else if (!/\S+@\S+\.\S+/.test(formData.email))
+    if (!formData.name?.trim()) newErrors.name = "Name is required.";
+    if (!formData.nic?.trim()) newErrors.nic = "NIC is required.";
+    if (!formData.email?.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Invalid email format.";
-    if (!formData.mobileNumber.trim())
+    }
+    if (!formData.mobileNumber?.trim()) {
       newErrors.mobileNumber = "Mobile Number is required.";
-    else if (!/^\d{10}$/.test(formData.mobileNumber))
+    } else if (!/^\d{10}$/.test(formData.mobileNumber)) {
       newErrors.mobileNumber = "Mobile Number must be 10 digits.";
-    if (!formData.latitude || !formData.longitude)
+    }
+    if (!formData.latitude || !formData.longitude) {
       newErrors.location = "Please select a location on the map.";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -143,27 +170,24 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
     setIsSubmitting(true);
 
     try {
-      await axios.post("http://localhost:8080/api/users/register", formData, {
-        headers: { "Content-Type": "application/json" },
-      });
-      alert("Officer added successfully!");
+      if (officerData?.id) {
+        await axios.put(
+          `http://localhost:8080/api/users/${officerData.id}`,
+          formData,
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        alert("Officer updated successfully!");
+      } else {
+        await axios.post("http://localhost:8080/api/users/register", formData, {
+          headers: { "Content-Type": "application/json" },
+        });
+        alert("Officer added successfully!");
+      }
       onSuccess();
-      setFormData({
-        name: "",
-        employeeNumber: "",
-        nic: "",
-        email: "",
-        mobileNumber: "",
-        address: "",
-        password: "",
-        role: "DISASTER_OFFICER",
-        image: null,
-        latitude: 6.9271, // Reset to default location
-        longitude: 79.8612,
-      });
-      setProfileImage(null);
     } catch (error: any) {
-      alert(error.response?.data?.message || "Failed to add officer.");
+      alert(error.response?.data?.message || "Operation failed.");
     } finally {
       setIsSubmitting(false);
     }
@@ -213,11 +237,11 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
         <div className="grid gap-6 md:grid-cols-2">
           <div className="space-y-2">
             <InputField
-              label="Employee Number"
-              name="employeeNumber"
-              value={formData.employeeNumber}
+              label="Email"
+              name="email"
+              value={formData.email}
               onChange={handleChange}
-              error={errors.employeeNumber}
+              error={errors.email}
             />
           </div>
           <div className="space-y-2">
@@ -230,15 +254,7 @@ export default function OfficerForm({ onSuccess }: { onSuccess: () => void }) {
             />
           </div>
         </div>
-        <div className="space-y-2">
-          <InputField
-            label="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            error={errors.email}
-          />
-        </div>
+
         <div className="space-y-2">
           <InputField
             label="Mobile Number"

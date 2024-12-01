@@ -13,15 +13,27 @@ import OfficerForm from "@/components/OfficerForm";
 interface Officer {
   id: string;
   name: string;
-  role: string;
+  nic: string;
+  email: string;
   mobileNumber: string;
-  image?: string;
+  address: string;
+  password: string;
+  role: string;
+  image: string | null;
+  latitude: number;
+  longitude: number;
 }
 
 export default function OfficerDetails() {
   const [officers, setOfficers] = useState<Officer[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [currentOfficer, setCurrentOfficer] = useState<Officer | null>(null);
+
+  const handleEdit = (officer: Officer) => {
+    setCurrentOfficer(officer);
+    setIsFormVisible(true);
+  };
 
   const fetchOfficers = async () => {
     try {
@@ -97,7 +109,7 @@ export default function OfficerDetails() {
                   </p>
                 </div>
                 <div className="h-full w-[10%] rounded-2xl rounded-l-none flex flex-col justify-between items-end py-3 pr-3">
-                  <button>
+                  <button onClick={() => handleEdit(officer)}>
                     <div className="w-full flex">
                       <Image
                         src={Updateicon}
@@ -158,9 +170,11 @@ export default function OfficerDetails() {
                   </svg>
                 </button>
                 <OfficerForm
+                  officerData={currentOfficer}
                   onSuccess={() => {
                     fetchOfficers();
                     setIsFormVisible(false);
+                    setCurrentOfficer(null);
                   }}
                 />
               </div>
