@@ -109,11 +109,8 @@ export default function Admin() {
   >([]);
 
   const [VictimImage, setVictimImage] = useState("");
-
   const [VictimName, setVictimName] = useState("");
-
   const [searchQuery, setSearchQuery] = useState("");
-
   const [mobile_number, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");

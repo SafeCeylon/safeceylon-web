@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import axios from "axios";
-import * as React from "react"
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
+import * as React from "react";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import {
   Card,
@@ -11,46 +11,48 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart"
-import { array } from 'zod';
+} from "@/components/ui/chart";
+import { array } from "zod";
 
-const newChartData: { date: string; value: number }[] = []
+const newChartData: { date: string; value: number }[] = [];
 
 const chartConfig = {
   value: {
     label: "Value",
     color: "hsl(var(--chart-1))",
-  }
-} satisfies ChartConfig
+  },
+} satisfies ChartConfig;
 
 export function Component() {
-
   // Array of objects containing the date and value of the chart
   const [chatData, setChartData] = useState(newChartData);
-
+  const [marksCount, setMarksCount] = useState(0);
 
   const fetchData1 = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/disaster/dashboard");
+      const response = await axios.get(
+        "http://localhost:8080/api/disaster/dashboard"
+      );
       
       // Transform data into the desired format
-      const transformedData = response.data.disasterMarkCounts.map((item : any) => {
-        const date = Object.keys(item)[0]; // Extract the date
-        const value = Object.values(item)[0]; // Extract the value
-        return { date, value }; // Return the transformed object
-      });
-
+      const transformedData = response.data.disasterMarkCounts.map(
+        (item: any) => {
+          const date = Object.keys(item)[0]; // Extract the date
+          const value = Object.values(item)[0]; // Extract the value
+          return { date, value }; // Return the transformed object
+        }
+      );
+      
       // Set the transformed data to the state
       setChartData(transformedData);
-      console.log(transformedData);
-      
-      
+      setMarksCount(response.data.marksCount);
+      // console.log(transformedData);
     } catch (error) {
       console.error("Error fetching victim stats:", error);
     }
@@ -61,11 +63,16 @@ export function Component() {
     fetchData1();
   }, []);
 
-  const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("value")
+  const [activeChart, setActiveChart] =
+    React.useState<keyof typeof chartConfig>("value");
 
-  const total = React.useMemo(() => ({
-    value: chatData.reduce((acc, curr) => acc + curr.value, 0),
-  }), [])
+  const total = React.useMemo(
+    () => ({
+      value: chatData.reduce((acc, curr) => acc + curr.value, 0),
+    }),
+    []
+  );
+  
 
   return (
     <Card className="w-full h-full bg-[#FFF9F0]">
@@ -78,7 +85,7 @@ export function Component() {
         </div>
         <div className="flex">
           {Object.keys(chartConfig).map((key) => {
-            const chart = key as keyof typeof chartConfig
+            const chart = key as keyof typeof chartConfig;
             return (
               <button
                 key={chart}
@@ -86,14 +93,12 @@ export function Component() {
                 className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50 sm:border-l sm:border-t-0 sm:px-8 sm:py-6"
                 onClick={() => setActiveChart(chart)}
               >
-                <span className="text-xs text-muted-foreground">
-                  {"Total"}
-                </span>
+                <span className="text-xs text-muted-foreground">{"Total"}</span>
                 <span className="text-lg font-bold leading-none sm:text-3xl">
-                  {total[chart as keyof typeof total].toLocaleString()}
+                  {marksCount}
                 </span>
               </button>
-            )
+            );
           })}
         </div>
       </CardHeader>
@@ -118,11 +123,11 @@ export function Component() {
               tickMargin={8}
               minTickGap={32}
               tickFormatter={(value) => {
-                const date = new Date(value)
+                const date = new Date(value);
                 return date.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
-                })
+                });
               }}
             />
             <ChartTooltip
@@ -135,7 +140,7 @@ export function Component() {
                       month: "short",
                       day: "numeric",
                       year: "numeric",
-                    })
+                    });
                   }}
                 />
               }
@@ -145,7 +150,7 @@ export function Component() {
         </ChartContainer>
       </CardContent>
     </Card>
-  )
+  );
 }
 
-export default Component
+export default Component;
