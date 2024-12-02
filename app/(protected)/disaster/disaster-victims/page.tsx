@@ -94,7 +94,7 @@ export default function Admin() {
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-10">
       <div className="w-full flex bg-white flex-col gap-10 rounded-2xl">
         <div className="w-full flex flex-row gap-10 p-10 pb-0 h-1/4">
-          <Link className="w-1/3" href={'/disaster/disaster-victims/chat-ToReply'}>
+          <a className="w-1/3" href={'/disaster/disaster-victims/chat?UserId=null&Type=ToReply'}>
             <div className="w-full bg-ToReply h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
               <div className="w-4/5 flex flex-col justify-center rounded-2xl">
                 <p className="pl-5 pb-5 text-active font-bold text-2xl">
@@ -124,9 +124,9 @@ export default function Admin() {
                 </svg>
               </div>
             </div>
-          </Link>
+          </a>
 
-          <Link className="w-1/3" href={'/disaster/disaster-victims/chat/'}>
+          <a className="w-1/3" href={'/disaster/disaster-victims/chat?UserId=null&Type=Replied'}>
             <div className="w-full bg-Replied h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
               <div className="w-4/5 flex flex-col justify-center rounded-2xl">
                 <p className="pl-5 pb-5 text-active font-bold text-2xl">
@@ -156,9 +156,9 @@ export default function Admin() {
                 </svg>
               </div>
             </div>
-          </Link>
+          </a>
 
-          <Link className="w-1/3" href={'/disaster/disaster-victims/chat/'}>
+          <a className="w-1/3" href={'/disaster/disaster-victims/chat?UserId=null&Type=Closed'}>
             <div className="w-full bg-Closed h-full rounded-2xl shadow-md shadow-gray-400 flex flex-row">
               <div className="w-4/5 flex flex-col justify-center rounded-2xl">
                 <p className="pl-5 pb-5 text-active font-bold text-2xl">
@@ -186,7 +186,7 @@ export default function Admin() {
                 </svg>
               </div>
             </div>
-          </Link>
+          </a>
         </div>
 
         <div className="w-full flex gap-10 p-10 pt-0 h-3/4">

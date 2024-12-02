@@ -103,7 +103,7 @@ export default function Admin() {
   const handleClick = async (userId: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/disaster/disaster-victims/chat-ToReply?UserId=${userId}`
+        `http://localhost:8080/api/disaster/disaster-victims/chat?UserId=${userId}`
       );
       console.log(response.data);
 
@@ -123,7 +123,7 @@ export default function Admin() {
   const fetchUsersToRely = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/disaster/disaster-victims/chat-ToReply`
+        `http://localhost:8080/api/disaster/disaster-victims/chat`
       );
       // console.log(response.data);
       setUsers(response.data);
