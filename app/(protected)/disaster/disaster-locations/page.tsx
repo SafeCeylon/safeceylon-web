@@ -9,52 +9,70 @@ import DisasterForm, {
   DisasterFormData,
 } from "@/components/DisasterLocationForm";
 import axios from "axios";
+import toast from "react-hot-toast";
+
+const API_BASE_URL = "http://localhost:8080/api";
+
+interface Disaster {
+  id: string;
+  latitude: number;
+  longitude: number;
+  type: string;
+  radius: number;
+  reportedAt: string;
+  resolved: boolean;
+  reportedBy: string;
+}
+
+interface User {
+  id: string;
+  latitude: number;
+  longitude: number;
+}
 
 export default function Admin() {
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<{
     latitude: number;
     longitude: number;
   } | null>(null);
 
-  const [editingDisaster, setEditingDisaster] = useState<{
-    id: string;
-    latitude: number;
-    longitude: number;
-    type: string;
-    radius: number;
-    reportedAt: string;
-    resolved: boolean;
-    reportedBy: string;
-  } | null>(null);
+  const [editingDisaster, setEditingDisaster] = useState<Disaster | null>(null);
 
-  const [disasters, setDisasters] = useState<
-    {
-      id: string;
-      latitude: number;
-      longitude: number;
-      type: string;
-      radius: number;
-      reportedAt: string;
-      resolved: boolean;
-      reportedBy: string;
-    }[]
-  >([]);
+  const [disasters, setDisasters] = useState<Disaster[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
 
-  const [filter, setFilter] = useState("all"); // all, dmc, user
+  const [filter, setFilter] = useState("all");
 
   const fetchDisasters = async () => {
+    setIsLoading(true);
     try {
-      const response = await axios.get("http://localhost:8080/api/disasters");
+      const response = await axios.get(`${API_BASE_URL}/disasters`);
       setDisasters(response.data);
     } catch (error) {
       console.error("Error fetching disasters:", error);
+      toast.error("Failed to fetch disasters.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchUsers = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${API_BASE_URL}/users`);
+      setUsers(response.data);
+    } catch {
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchDisasters();
+    fetchUsers();
   }, []);
 
   const handleMapClick = (latitude: number, longitude: number) => {
@@ -68,16 +86,7 @@ export default function Admin() {
     setSelectedLocation(null);
   };
 
-  const handleEditDisaster = (disaster: {
-    id: string;
-    latitude: number;
-    longitude: number;
-    type: string;
-    radius: number;
-    reportedAt: string;
-    resolved: boolean;
-    reportedBy: string;
-  }) => {
+  const handleEditDisaster = (disaster: Disaster) => {
     setIsEditing(true);
     setEditingDisaster(disaster);
     setSelectedLocation({
@@ -88,10 +97,12 @@ export default function Admin() {
 
   const handleDeleteDisaster = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:8080/api/disasters/${id}`);
+      await axios.delete(`${API_BASE_URL}/disasters/${id}`);
       setDisasters(disasters.filter((disaster) => disaster.id !== id));
+      toast.success("Disaster deleted successfully.");
     } catch (error) {
       console.error("Error deleting disaster:", error);
+      toast.error("Failed to delete disaster.");
     }
   };
 
@@ -102,25 +113,33 @@ export default function Admin() {
       reportedBy: data.reportedBy || "admin",
       reportedAt,
     };
+
     if (isEditing && editingDisaster) {
       axios
-        .put(
-          `http://localhost:8080/api/disasters/${editingDisaster.id}`,
-          disasterData
-        )
+        .put(`${API_BASE_URL}/disasters/${editingDisaster.id}`, disasterData)
         .then((response) => {
           setDisasters(
             disasters.map((d) =>
               d.id === editingDisaster.id ? response.data : d
             )
           );
+          toast.success("Disaster updated successfully.");
         })
-        .catch((error) => console.error("Error updating disaster:", error));
+        .catch((error) => {
+          console.error("Error updating disaster:", error);
+          toast.error("Failed to update disaster.");
+        });
     } else {
       axios
-        .post("http://localhost:8080/api/disasters", disasterData)
-        .then((response) => setDisasters([...disasters, response.data]))
-        .catch((error) => console.error("Error adding disaster:", error));
+        .post(`${API_BASE_URL}/disasters`, disasterData)
+        .then((response) => {
+          setDisasters([...disasters, response.data]);
+          toast.success("Disaster added successfully.");
+        })
+        .catch((error) => {
+          console.error("Error adding disaster:", error);
+          toast.error("Failed to add disaster.");
+        });
     }
     setIsAdding(false);
     setIsEditing(false);
@@ -150,6 +169,7 @@ export default function Admin() {
               variant="outline"
               className="ml-4 rounded-full shadow-md shadow-gray-400"
               onClick={handleAddDisaster}
+              disabled={isAdding}
             >
               <Image
                 src={add_icon}
@@ -176,12 +196,19 @@ export default function Admin() {
               </div>
             )}
 
-            <GoogleMaps_forDisasterLocations
-              onClick={handleMapClick}
-              disasters={filteredDisasters} // Pass filtered disasters
-              onEdit={handleEditDisaster}
-              onDelete={handleDeleteDisaster}
-            />
+            {isLoading ? (
+              <div className="flex justify-center items-center h-full">
+                <div className="spinner border-t-blue-500 animate-spin"></div>
+              </div>
+            ) : (
+              <GoogleMaps_forDisasterLocations
+                onClick={handleMapClick}
+                disasters={filteredDisasters}
+                users={users}
+                onEdit={handleEditDisaster}
+                onDelete={handleDeleteDisaster}
+              />
+            )}
 
             {(isAdding || isEditing) && selectedLocation && (
               <div

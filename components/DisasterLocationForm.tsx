@@ -91,9 +91,9 @@ const DisasterForm: React.FC<DisasterFormProps> = ({
           <SelectValue placeholder="Select Disaster Type" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="flood">Flood</SelectItem>
-          <SelectItem value="landslide">Landslide</SelectItem>
-          <SelectItem value="hurricane">Hurricane</SelectItem>
+          <SelectItem value="Flood">Flood</SelectItem>
+          <SelectItem value="Landslide">Landslide</SelectItem>
+          <SelectItem value="Hurricane">Hurricane</SelectItem>
         </SelectContent>
       </Select>
 
