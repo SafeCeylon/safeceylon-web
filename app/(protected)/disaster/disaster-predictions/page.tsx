@@ -1,22 +1,21 @@
-'use client';
+"use client";
 
-
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-import GoogleMaps_withSearch from '@/components/GoogleMaps_withSearch';
-import GMapsSearch from '@/components/gMaps_search';
+import GoogleMaps_withSearch from "@/components/GoogleMaps_forDisasterPredictions";
+import GMapsSearch from "@/components/gMaps_search";
 
-import Link from 'next/link';
+import Link from "next/link";
 
-import Image from 'next/image';
-import add_icon from '@/public/assets/add_icon.svg';
+import Image from "next/image";
+import add_icon from "@/public/assets/add_icon.svg";
 
 export default function Admin() {
   return (
@@ -24,7 +23,6 @@ export default function Admin() {
       <div className="flex flex-col w-full gap-14 h-full">
         <div className="w-full bg-white h-full rounded-2xl p-5 pt-0">
           <div className="w-full h-20 flex-shrink-0 flex flex-row items-center justify-between">
-
             <div>
               <Button
                 variant="outline"
@@ -74,7 +72,6 @@ export default function Admin() {
                 <Link href="#">Quality Status</Link>
               </Button>
             </div>
-
           </div>
 
           <div className="h-[90%]">
