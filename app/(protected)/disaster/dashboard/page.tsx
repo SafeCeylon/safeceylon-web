@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from 'react';
+import axios from "axios";
 import RequestCard from "@/components/RequestCard";
 import GoogleMaps_withSearch from "@/components/GoogleMaps_withSearch";
 import RecordChart from "@/components/RecordChart";
@@ -99,16 +101,55 @@ const locationTableData = [
 ];
 
 export default function Admin() {
+
+  // Dashboard page Data
+
+  // Disaster Victims Status
+  const [disasterVictimStatusToReplyCount, setDisasterVictimStatusToReplyCount] = useState<number>(0);
+  const [disasterVictimStatusRepliedCount, setDisasterVictimStatusRepliedCount] = useState<number>(0);
+  const [disasterVictimStatusClosedCount, setDisasterVictimStatusClosedCount] = useState<number>(0);
+  const totalDisasterVictimStatusCount = disasterVictimStatusToReplyCount + disasterVictimStatusRepliedCount + disasterVictimStatusClosedCount;
+  const disasterVictimStatusToReplyPercentage = parseFloat(((disasterVictimStatusToReplyCount / totalDisasterVictimStatusCount) * 100).toFixed(1));
+  const disasterVictimStatusRepliedPercentage = parseFloat(((disasterVictimStatusRepliedCount / totalDisasterVictimStatusCount) * 100).toFixed(1));
+  const disasterVictimStatusClosedPercentage = parseFloat(((disasterVictimStatusClosedCount / totalDisasterVictimStatusCount) * 100).toFixed(1));
+  
+  // System User Count
+  const [disasterOfficerCount, setDisasterOfficerCount] = useState<number>(0);
+  const [publicUserCount, setPublicUserCount] = useState<number>(0);
+
+
+    // fetch the number of requests for each status
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/disaster/dashboard");
+        // setVictimStats(response.data);
+        console.log(response.data);
+        setDisasterVictimStatusToReplyCount(response.data.disasterVictimStatusToReplyCount);
+        setDisasterVictimStatusRepliedCount(response.data.disasterVictimStatusRepliedCount);
+        setDisasterVictimStatusClosedCount(response.data.disasterVictimStatusClosedCount);
+        setDisasterOfficerCount(response.data.disasterOfficerCount);
+        setPublicUserCount(response.data.publicUserCount);
+      } catch (error) {
+        console.error("Error fetching victim stats:", error);
+      }
+    };
+  
+    // fetch the number of requests for each status on page load
+    useEffect(() => {
+      fetchData();
+    }, []);
+
+
   return (
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-20 mb-5">
       <div className="flex flex-col w-2/3 gap-14 h-full">
         <div className="flex w-full gap-20 h-1/4">
           <div className="text-black flex flex-col bg-[#FFF9F0] w-1/2 items-center justify-center h-full rounded-2xl">
             <h4 className="text-lg mt-[10px]">Disaster Victims Status</h4>
-            <div className="flex w-full gap-5 px-10 h-full my-5 ">
-              <RequestCard percentage={45} messageCount={90} />
-              <RequestCard percentage={25} messageCount={50} />
-              <RequestCard percentage={30} messageCount={60} />
+            <div className="flex w-full gap-5 px-10 h-full my-5 justify-between">
+              <RequestCard percentage={disasterVictimStatusToReplyPercentage} messageCount={disasterVictimStatusToReplyCount} />
+              <RequestCard percentage={disasterVictimStatusRepliedPercentage} messageCount={disasterVictimStatusRepliedCount} />
+              <RequestCard percentage={disasterVictimStatusClosedPercentage} messageCount={disasterVictimStatusClosedCount} />
             </div>
           </div>
 
@@ -127,7 +168,7 @@ export default function Admin() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">52</div>
+                  <div className="text-2xl font-bold">{disasterOfficerCount}</div>
                   <p className="text-xs text-muted-foreground">
                     Through web app
                   </p>
@@ -145,7 +186,7 @@ export default function Admin() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">2143</div>
+                  <div className="text-2xl font-bold">{publicUserCount}</div>
                   <p className="text-xs text-muted-foreground">
                     Through mobile app
                   </p>
