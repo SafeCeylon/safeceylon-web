@@ -26,7 +26,6 @@ export default function GoogleMaps_withSearch({
       const loader = new Loader({
         apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
         version: "weekly",
-        libraries: ["places"],
       });
 
       const { Map } = await loader.importLibrary("maps");
@@ -120,7 +119,7 @@ export default function GoogleMaps_withSearch({
       });
 
       // Highlight disasters on the map
-      disasters?.forEach((disaster) => {
+      disasters.forEach((disaster) => {
         map.data.forEach((feature) => {
           if (feature.getProperty("ADM3_PCODE") === disaster.code) {
             map.data.overrideStyle(feature, { fillColor: "red" });
@@ -134,5 +133,3 @@ export default function GoogleMaps_withSearch({
 
   return <div className="h-full w-full rounded-2xl" ref={mapRef}></div>;
 }
-
-
