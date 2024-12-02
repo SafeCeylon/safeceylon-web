@@ -22,9 +22,11 @@ interface FormData {
 export default function OfficerForm({
   officerData,
   onSuccess,
+  role,
 }: {
   officerData?: FormData | null;
   onSuccess: () => void;
+  role: string;
 }) {
   const [formData, setFormData] = useState<FormData>({
     id: officerData?.id || "",
@@ -34,7 +36,7 @@ export default function OfficerForm({
     mobileNumber: officerData?.mobileNumber || "",
     address: officerData?.address || "",
     password: "",
-    role: officerData?.role || "DISASTER_OFFICER",
+    role: officerData?.role || role,
     image: officerData?.image || null,
     latitude: officerData?.latitude || 6.9271,
     longitude: officerData?.longitude || 79.8612,

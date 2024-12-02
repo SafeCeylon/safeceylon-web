@@ -26,7 +26,6 @@ export default function GoogleMaps_withSearch({
       const loader = new Loader({
         apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
         version: "weekly",
-        libraries: ["places"],
       });
 
       const { Map } = await loader.importLibrary("maps");

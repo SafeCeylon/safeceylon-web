@@ -176,6 +176,7 @@ export default function OfficerDetails() {
                     setIsFormVisible(false);
                     setCurrentOfficer(null);
                   }}
+                  role="DISASTER_OFFICER"
                 />
               </div>
             </div>
