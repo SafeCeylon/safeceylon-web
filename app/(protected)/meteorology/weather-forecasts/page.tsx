@@ -13,6 +13,7 @@ import {
 
 import GoogleMaps from "@/components/GoogleMaps_withSearch";
 
+
 import Link from "next/link";
 
 import Image from "next/image";
@@ -51,30 +52,15 @@ export default function Admin() {
   const [isPdfFormVisible, setIsPdfFormVisible] = useState(false);
 
   // Function to handle PDF form submission
-  const handlePdfFormSubmit = async (file: File | null) => {
-    if (!file) {
+  const handlePdfFormSubmit = (file: File | null) => {
+    if (file) {
+      console.log("PDF submitted:", file);
+      alert("PDF submitted successfully!");
+    } else {
       alert("No file selected!");
-      return;
     }
-  
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-  
-      const response = await api.post("/pdf/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("PDF Upload Response:", response.data);
-      alert("PDF uploaded successfully!");
-      setIsPdfFormVisible(false); // Close the form after submission
-    } catch (error) {
-      console.error("Error uploading PDF:", error);
-      alert("Failed to upload PDF. Please try again.");
-    }
+    setIsPdfFormVisible(false); // Close the form after submission
   };
-  
 
   // Function to handle PDF form cancellation
   const handlePdfFormCancel = () => {
@@ -143,7 +129,9 @@ export default function Admin() {
 
           {/* Google Maps Section */}
           <div className="h-[90%]">
-            <GoogleMaps />
+            <GoogleMaps onClick={function (dsd: { name: string; code: string; coordinates: any; }): void {
+              throw new Error("Function not implemented.");
+            } } disasters={[]} />
           </div>
         </div>
       </div>
