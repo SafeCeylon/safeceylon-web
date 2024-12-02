@@ -61,11 +61,6 @@ export function Component() {
     fetchData1();
   }, []);
 
-
-
-
-
-
   const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>("value")
 
   const total = React.useMemo(() => ({
