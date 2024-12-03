@@ -1,106 +1,186 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { Input } from "@/components/ui/input"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import add_icon from "@/public/assets/add_icon.svg";
+import DefaultOfficerImage from "@/public/assets/default_officer_image.png";
+import Updateicon from "@/public/assets/update_icon.svg";
+import DeleteIcon from "@/public/assets/delete_icon.svg";
+import OfficerForm from "@/components/OfficerForm";
 
+interface Officer {
+  id: string;
+  name: string;
+  nic: string;
+  email: string;
+  mobileNumber: string;
+  address: string;
+  password: string;
+  role: string;
+  image: string | null;
+  latitude: number;
+  longitude: number;
+}
 
-import Image from 'next/image';
-import Link from 'next/link';
+export default function OfficerDetails() {
+  const [officers, setOfficers] = useState<Officer[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [currentOfficer, setCurrentOfficer] = useState<Officer | null>(null);
 
+  const handleEdit = (officer: Officer) => {
+    setCurrentOfficer(officer);
+    setIsFormVisible(true);
+  };
 
-import add_icon from '@/public/assets/add_icon.svg';
-import DefaultOfficerImage from '@/public/assets/default_officer_image.png';
-import Updateicon from '@/public/assets/update_icon.svg';
-import DeleteIcon from '@/public/assets/delete_icon.svg';
+  const fetchOfficers = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/users/meteorology"
+      );
+      setOfficers(response.data);
+    } catch (error) {
+      console.error("Error fetching officers:", error);
+    }
+  };
 
-export default function Admin() {
+  useEffect(() => {
+    fetchOfficers();
+  }, []);
+
+  const filteredOfficers = officers.filter(
+    (officer) =>
+      officer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      officer.role.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-20">
       <div className="flex flex-col w-full gap-14 h-full">
-        <div className="w-full bg-white h-full rounded-2xl p-5 pt-2">
+        <div className="w-full bg-white h-full rounded-2xl p-5 pt-0">
           <div className="px-20 w-full h-[11%] flex-shrink-0 flex flex-row justify-between items-center">
-
-            <Link href={'/meteorology/officer-details/add-officer/'}>
-              <Button
-                variant="outline"
-                className="rounded-full shadow-md shadow-gray-400"
-              >
-                <Image
-                  src={add_icon}
-                  alt="Logo1"
-                  className="h-[18px] w-auto pr-2"
-                />
-                Add Officer
-              </Button>
-            </Link>
-
-            <div className='flex items-center rounded-full shadow-md shadow-gray-400'>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                className="w-6 h-6 absolute bg-left-top mt-6 transform -translate-y-1/2 text-gray-500 ml-2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-              <Input
-                type="text"
-                placeholder="       Search anything..."
-                className="rounded-full"
+            <Button
+              variant="outline"
+              className="rounded-full shadow-md shadow-gray-400"
+              onClick={() => setIsFormVisible(true)}
+            >
+              <Image
+                src={add_icon}
+                alt="Add Icon"
+                className="h-[18px] w-auto pr-2"
               />
-            </div>            
+              Add Officer
+            </Button>
+            <input
+              type="text"
+              placeholder="Search..."
+              className="border rounded-lg px-3 py-2"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
 
-          <div className='h-[89%] px-20 grid gap-y-10 gap-x-28 grid-cols-2 overflow-y-auto'>
-
-            {
-              Array(20).fill(0).map((_, index) => (        
-
-                <div key={index} className='w-full h-40 flex flex-row rounded-2xl shadow-md shadow-gray-400'>
-
-                  <div className='w-[25%] rounded-2xl rounded-r-none' style={{ backgroundColor: '#9ACC99' }}>
-                    <Image 
-                      className='w-full h-full object-contain object-center rounded-2xl rounded-r-none'
-                      src={DefaultOfficerImage} 
-                      alt='Officer Image' 
-                    />
-                  </div>
-
-                  <div className='h-full w-[65%] pl-10 py-5 flex flex-col justify-center items-start gap-2'>
-                    <p className='text-lg font-bold'>Officer Name</p>
-                    <p className='text-lg'>Senior Officer</p>
-                    <p className='text-lg'>071 2926 972</p>
-
-                  </div>   
-
-
-                  <div className='h-full w-[10%] rounded-2xl rounded-l-none flex flex-col justify-between items-end py-3 pr-3'>
-                    <Link href={'/meteorology/officer-details/update-officer/'}>
-                      <div className='w-full flex'>
-                        <Image src={Updateicon} alt='Update Icon' className='w-7' />
-                      </div>
-                    </Link>
-
-                    <Link href={'#'}>
-                      <div className='w-full flex'>
-                        <Image src={DeleteIcon} alt='Update Icon' className='w-7' />
-                      </div>
-                    </Link>
-                  </div>               
-
+          <div className="px-20 py-5 grid gap-x-28 grid-cols-3 overflow-y-auto">
+            {filteredOfficers.map((officer) => (
+              <div
+                key={officer.id}
+                className="w-full h-[120px] flex flex-row rounded-2xl shadow-md shadow-gray-400 mb-[20px]"
+              >
+                <div
+                  className="w-[25%] rounded-2xl rounded-r-none"
+                  style={{ backgroundColor: "#9ACC99" }}
+                >
+                  <Image
+                    className="w-full h-full object-contain object-center rounded-2xl rounded-r-none"
+                    src={officer.image || DefaultOfficerImage}
+                    alt={officer.name}
+                    width={100}
+                    height={100}
+                  />
                 </div>
-              ))
-            }
+
+                <div className="h-full w-[65%] pl-10 py-5 flex flex-col justify-center items-start gap-2">
+                  <p className="font-semibold">{officer.name}</p>
+                  <p className="text-sm text-gray-600">{officer.role}</p>
+                  <p className="text-sm text-gray-600">
+                    {officer.mobileNumber}
+                  </p>
+                </div>
+                <div className="h-full w-[10%] rounded-2xl rounded-l-none flex flex-col justify-between items-end py-3 pr-3">
+                  <button onClick={() => handleEdit(officer)}>
+                    <div className="w-full flex">
+                      <Image
+                        src={Updateicon}
+                        alt="Update Icon"
+                        width={24}
+                        height={24}
+                      />
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={async () => {
+                      try {
+                        await axios.delete(
+                          `http://localhost:8080/api/users/${officer.id}`
+                        );
+                        setOfficers((prev) =>
+                          prev.filter((item) => item.id !== officer.id)
+                        );
+                      } catch (error) {
+                        console.error("Error deleting officer:", error);
+                      }
+                    }}
+                    className="w-full flex"
+                  >
+                    <Image
+                      src={DeleteIcon}
+                      alt="Delete Icon"
+                      width={24}
+                      height={24}
+                    />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
 
-
-          
+          {isFormVisible && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ">
+              <div className="bg-white w-[90%] md:w-[50%] rounded-lg shadow-lg flex flex-col p-2 h-[85%] overflow-auto">
+                <button
+                  className="text-red-500 flex w-full justify-end"
+                  onClick={() => setIsFormVisible(false)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18 18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+                <OfficerForm
+                  officerData={currentOfficer}
+                  onSuccess={() => {
+                    fetchOfficers();
+                    setIsFormVisible(false);
+                    setCurrentOfficer(null);
+                  }}
+                  role="METEOROLOGY_OFFICER"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

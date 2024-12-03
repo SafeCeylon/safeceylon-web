@@ -1,15 +1,19 @@
 "use client";
 
+
 import { useRouter } from "next/router";
 import { useState, useEffect, use } from "react";
+
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import DefaultProfilePic from "@/public/assets/default_profile_pic.png";
+
 import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
 import { set } from "zod";
 import { Type } from "lucide-react";
+
 
 export default function Admin() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -235,6 +239,7 @@ export default function Admin() {
                     </a>
                   </div>
                 ))}
+
               </div>
             </div>
 
@@ -396,6 +401,7 @@ export default function Admin() {
                   }
                 </div>
               </div>
+
             </div>
           </div>
         </div>

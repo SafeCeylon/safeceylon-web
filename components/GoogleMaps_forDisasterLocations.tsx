@@ -1,18 +1,22 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import images from "../constants/images";
 import { StaticImageData } from "next/image";
+import axios from "axios";
 
 interface GoogleMapsWithSearchProps {
   onClick: (lat: number, lng: number) => void;
   disasters: {
-    id: string; // Unique identifier for each disaster
+    id: string;
     latitude: number;
     longitude: number;
     type: string;
-    radius: number; // Include radius for circle drawing
+    radius: number;
+    reportedAt: string;
+    resolved: boolean;
+    reportedBy: string;
   }[];
   onEdit: (disaster: {
     id: string;
@@ -20,20 +24,28 @@ interface GoogleMapsWithSearchProps {
     longitude: number;
     type: string;
     radius: number;
+    reportedAt: string;
+    resolved: boolean;
+    reportedBy: string;
   }) => void;
   onDelete: (id: string) => void;
+  users: {
+    id: string;
+    latitude: number;
+    longitude: number;
+  }[];
 }
 
 const disasterIcons: Record<string, StaticImageData> = {
-  flood: images.Flood,
-  landslide: images.Landslide,
-  hurricane: images.Hurricane,
+  Flood: images.Flood,
+  Landslide: images.Landslide,
+  Hurricane: images.Hurricane,
 };
 
 const disasterColors: Record<string, string> = {
-  flood: "#ADD8E6", // Light blue
-  landslide: "#D2B48C", // Light brown
-  hurricane: "#D3D3D3", // Light gray
+  Flood: "#ADD8E6", // Light blue
+  Landslide: "#D2B48C", // Light brown
+  Hurricane: "#D3D3D3", // Light gray
 };
 
 function createCustomIcon(iconUrl: string): google.maps.Icon {
@@ -45,14 +57,63 @@ function createCustomIcon(iconUrl: string): google.maps.Icon {
   };
 }
 
+function calculateThreatLevel(distance: number, radius: number): string {
+  if (distance <= radius / 3) return "Red";
+  if (distance <= (2 * radius) / 3) return "Amber";
+  return "Yellow";
+}
+
+function haversine(
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number {
+  const R = 6371; // Radius of the Earth in km
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 1000; // Convert to meters
+}
+
 export default function GoogleMaps_forDisasterLocations({
   onClick,
   disasters,
   onEdit,
   onDelete,
+  users,
 }: GoogleMapsWithSearchProps) {
   const mapRef = React.useRef<HTMLDivElement>(null);
   const [marker, setMarker] = useState<google.maps.Marker | null>(null);
+
+  const notifiedUsers = useRef(new Set<string>());
+
+  // Function to send notifications via Axios
+  const notifyUser = async (
+    userId: string,
+    title: string,
+    message: string,
+    threatLevel: string
+  ) => {
+    try {
+      await axios.post("http://localhost:8080/api/v1/notifications", {
+        userId,
+        title,
+        message,
+        threatLevel,
+        date: new Date().toISOString(),
+        cleared: false,
+        status: "active",
+      });
+    } catch (error) {
+      console.error("Error sending notification", error);
+    }
+  };
 
   useEffect(() => {
     const initializeMap = async () => {
@@ -139,6 +200,28 @@ export default function GoogleMaps_forDisasterLocations({
           clickable: false, // Ensures the circle does not block clicks to the map
         });
 
+        users.forEach((user) => {
+          const distance = haversine(
+            disaster.latitude,
+            disaster.longitude,
+            user.latitude,
+            user.longitude
+          );
+
+          if (
+            distance <= disaster.radius &&
+            !notifiedUsers.current.has(`${user.id}-${disaster.id}`)
+          ) {
+            notifiedUsers.current.add(`${user.id}-${disaster.id}`);
+
+            const threatLevel = calculateThreatLevel(distance, disaster.radius);
+            const title = `${disaster.type} Alert`;
+            const message = `You are within the disaster zone. Stay safe!`;
+
+            notifyUser(user.id, title, message, threatLevel);
+          }
+        });
+
         // Create info window
         const infoWindow = new google.maps.InfoWindow({
           content: `
@@ -217,7 +300,7 @@ export default function GoogleMaps_forDisasterLocations({
     };
 
     initializeMap();
-  }, [onClick, marker, disasters, onEdit, onDelete]);
+  }, [onClick, disasters, marker, onEdit, onDelete, users]);
 
   return <div className="h-full w-full rounded-2xl" ref={mapRef}></div>;
 }

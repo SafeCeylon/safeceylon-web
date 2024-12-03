@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import GoogleMaps_withSearch from "@/components/GoogleMaps_forDisasterPredictions";
+import GoogleMaps_forDisasterPredictions from "@/components/GoogleMaps_forDisasterPredictions";
 import Image from "next/image";
 import Modal from "@/components/UploadForm";
 import add_icon from "@/public/assets/add_icon.svg";
@@ -11,6 +11,8 @@ const DisasterPredictions: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileType, setFileType] = useState<string | null>(null);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [selectedDisasterType, setSelectedDisasterType] =
+    useState<string>("landslide-warnings");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -48,6 +50,12 @@ const DisasterPredictions: React.FC = () => {
   const openModal = (type: string) => {
     setFileType(type);
     setModalOpen(true);
+  };
+
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedDisasterType(event.target.value);
   };
 
   return (
@@ -108,10 +116,22 @@ const DisasterPredictions: React.FC = () => {
                 Quality Status
               </Button>
             </div>
+            <div className="flex items-center">
+              <select
+                id="disaster-type"
+                value={selectedDisasterType}
+                onChange={handleDropdownChange}
+                className="border rounded-md px-4 py-2"
+              >
+                <option value="landslide-warnings">Landslide Warnings</option>
+                <option value="weather-reports">Weather Reports</option>
+                <option value="quality-status">Quality Status</option>
+              </select>
+            </div>
           </div>
 
           <div className="h-[90%]">
-            <GoogleMaps_withSearch />
+            <GoogleMaps_forDisasterPredictions type={selectedDisasterType} />
           </div>
         </div>
       </div>
@@ -123,7 +143,11 @@ const DisasterPredictions: React.FC = () => {
       >
         <div>
           <p className="text-lg font-semibold">Upload {fileType}</p>
-          <input type="file" accept=".pdf" onChange={handleFileChange} />
+          <input
+            type="file"
+            accept=".csv, .jpg, .jpeg, .png"
+            onChange={handleFileChange}
+          />
         </div>
       </Modal>
     </div>

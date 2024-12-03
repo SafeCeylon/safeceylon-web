@@ -16,6 +16,16 @@ import Hurricane from '@/public/assets/icons/hurricane_icon.png';
 import Shelter from '@/public/assets/icons/shelter.png';
 import Hospital from '@/public/assets/icons/hospital.png';
 
+
+import CloudAndSun from '@/public/assets/icons/weather-icon/clouds-and-sun.png';
+import Clouds from '@/public/assets/icons/weather-icon/clouds.png';
+import LightningAndRain from '@/public/assets/icons/weather-icon/lightning-and-rain.png';
+import Lightning from '@/public/assets/icons/weather-icon/lightning.png';
+import Rain from '@/public/assets/icons/weather-icon/rain.png';
+import Storm from '@/public/assets/icons/weather-icon/storm.png';
+import SunAndRain from '@/public/assets/icons/weather-icon/sun-and-rain.png';
+import Sun from '@/public/assets/icons/weather-icon/sun.png';
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   HomeBG,
@@ -33,4 +43,13 @@ export default {
   Hurricane,
   Shelter,
   Hospital,
+
+  CloudAndSun,
+  Clouds,
+  LightningAndRain,
+  Lightning,
+  Rain,
+  Storm,
+  SunAndRain,
+  Sun,
 };
