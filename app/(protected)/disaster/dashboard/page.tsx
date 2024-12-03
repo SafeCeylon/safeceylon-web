@@ -193,14 +193,17 @@ export default function Admin() {
             <h4 className="text-lg mt-[10px]">Disaster Victims Status</h4>
             <div className="flex w-full gap-5 px-10 h-full my-5 justify-between">
               <RequestCard
+                name = "To Reply"
                 percentage={disasterVictimStatusToReplyPercentage}
                 messageCount={disasterVictimStatusToReplyCount}
               />
               <RequestCard
+                name = "Replied"
                 percentage={disasterVictimStatusRepliedPercentage}
                 messageCount={disasterVictimStatusRepliedCount}
               />
               <RequestCard
+                name = "Closed"
                 percentage={disasterVictimStatusClosedPercentage}
                 messageCount={disasterVictimStatusClosedCount}
               />
