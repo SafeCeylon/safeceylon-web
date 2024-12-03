@@ -12,7 +12,7 @@ const DisasterPredictions: React.FC = () => {
   const [fileType, setFileType] = useState<string | null>(null);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [selectedDisasterType, setSelectedDisasterType] =
-    useState<string>("weather-reports");
+    useState<string>("landslide-warnings");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
