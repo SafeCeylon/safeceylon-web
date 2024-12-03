@@ -9,31 +9,13 @@ import DefaultProfilePic from "@/public/assets/default_profile_pic.png";
 import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
 import { set } from "zod";
-import { Type } from "lucide-react";
 
 export default function Admin() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const _type = urlParams.get("Type"); // Get the value of the 'Type' parameter
-
-  console.log(window.location.href);
-  console.log(_type);
-
   const [message, setMessage] = useState("");
   const [UserId, setUserId] = useState("null");
 
   const handleInputChange = (e: any) => {
     setMessage(e.target.value);
-  };
-
-  console.log(UserId);
-  const handleClose = async (): Promise<void> => {
-    const response: AxiosResponse<SendMessageResponse> = await axios.post(
-      "http://localhost:8080/api/disaster/disaster-victims/chat/close",
-      {
-        UserId: UserId,
-      }
-    );
-    location.reload();
   };
 
   // Type for the response data
@@ -109,8 +91,11 @@ export default function Admin() {
   >([]);
 
   const [VictimImage, setVictimImage] = useState("");
+
   const [VictimName, setVictimName] = useState("");
+
   const [searchQuery, setSearchQuery] = useState("");
+
   const [mobile_number, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
@@ -138,9 +123,8 @@ export default function Admin() {
   const fetchUsersToRely = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/disaster/disaster-victims/chat?UserId=null&Type=${_type}`
+        `http://localhost:8080/api/disaster/disaster-victims/chat`
       );
-
       // console.log(response.data);
       setUsers(response.data);
     } catch (error) {
@@ -164,23 +148,7 @@ export default function Admin() {
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full">
       <div className="w-full h-full flex bg-white flex-col rounded-2xl">
         <div className="h-[10%] pl-10 flex items-center">
-          <p className="font-bold text-xl">
-            Disaster Victims Chat (
-            {(() => {
-              switch (_type) {
-                case "ToReply":
-                  return "ToReply";
-                  break;
-                case "Replied":
-                  return "Replied";
-                  break;
-                case "Closed":
-                  return "Closed";
-                  break;
-              }
-            })()}
-            )
-          </p>
+          <p className="font-bold text-xl">Disaster Victims Chat</p>
         </div>
 
         <div className=" w-full h-[90%] pl-10 pr-10 pb-10">
@@ -239,31 +207,15 @@ export default function Admin() {
             </div>
 
             <div className="h-full w-2/4 bg-white rounded-2xl shadow-md shadow-gray-400">
-              <div className="h-[12%] w-full flex items-center px-7">
-                <div className="flex flex-row w-full items-center justify-between">
-                  <div className="flex flex-row items-center gap-2">
-                    <Avatar>
-                      <AvatarImage
-                        className="scale-150"
-                        src={VictimImage || "/assets/default_profile_pic.png"}
-                      />
-                    </Avatar>
-                    <p>{VictimName}</p>
-                  </div>
-
-                  <div>
-                    <button
-                      className={`py-2 px-5 rounded-md transition-all duration-300 ${
-                        _type === "Closed"
-                          ? "bg-yellow-900 text-gray-400 cursor-not-allowed"
-                          : "bg-yellow-500 text-white hover:bg-yellow-600 hover:scale-105"
-                      }`}
-                      onClick={_type !== "Closed" ? handleClose : undefined} // Disable click when closed
-                      disabled={_type === "Closed"} // Optional: Disable the button
-                    >
-                      {_type === "Closed" ? "Closed" : "Close"}
-                    </button>
-                  </div>
+              <div className="h-[12%] flex items-center pl-7">
+                <div className="flex flex-row items-center gap-3">
+                  <Avatar>
+                    <AvatarImage
+                      className="scale-150"
+                      src={VictimImage || "/assets/default_profile_pic.png"}
+                    />
+                  </Avatar>
+                  <p>{VictimName}</p>
                 </div>
               </div>
 
@@ -292,7 +244,7 @@ export default function Admin() {
                 ))}
               </div>
 
-              {/* <div className="h-[13%] px-7 pt-5 flex flex-row gap-2 w-full align-top">
+              <div className="h-[13%] px-7 pt-5 flex flex-row gap-2 w-full align-top">
                 <Input
                   type="text"
                   placeholder="Write your message"
@@ -304,34 +256,6 @@ export default function Admin() {
                   <button
                     className="bg-blue-500 text-white w-full py-2 rounded-md hover:bg-blue-600 hover:scale-105 transition-all duration-300"
                     onClick={handleSendMessage}
-                  >
-                    Send
-                  </button>
-                </div>
-              </div> */}
-
-              <div className="h-[13%] px-7 pt-5 flex flex-row gap-2 w-full align-top">
-                <Input
-                  type="text"
-                  placeholder="Write your message"
-                  value={message}
-                  onChange={handleInputChange}
-                  className={`border rounded-md ${
-                    _type === "Closed"
-                      ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                      : "bg-slate-100"
-                  }`}
-                  disabled={_type === "Closed"} // Disable input when closed
-                />
-                <div className="h-full w-2/12">
-                  <button
-                    className={`w-full py-2 rounded-md transition-all duration-300 ${
-                      _type === "Closed"
-                        ? "bg-gray-700 text-gray-400 cursor-not-allowed"
-                        : "bg-blue-500 text-white hover:bg-blue-600 hover:scale-105"
-                    }`}
-                    onClick={_type !== "Closed" ? handleSendMessage : undefined} // Disable click when closed
-                    disabled={_type === "Closed"} // Optional: Disable button
                   >
                     Send
                   </button>
