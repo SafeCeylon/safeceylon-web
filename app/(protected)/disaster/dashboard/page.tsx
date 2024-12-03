@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import axios from "axios";
 import RequestCard from "@/components/RequestCard";
 import GoogleMaps_withSearch from "@/components/GoogleMaps_withSearch";
@@ -15,14 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import {
   Card,
@@ -101,44 +93,97 @@ const locationTableData = [
 ];
 
 export default function Admin() {
-
   // Dashboard page Data
 
   // Disaster Victims Status
-  const [disasterVictimStatusToReplyCount, setDisasterVictimStatusToReplyCount] = useState<number>(0);
-  const [disasterVictimStatusRepliedCount, setDisasterVictimStatusRepliedCount] = useState<number>(0);
-  const [disasterVictimStatusClosedCount, setDisasterVictimStatusClosedCount] = useState<number>(0);
-  const totalDisasterVictimStatusCount = disasterVictimStatusToReplyCount + disasterVictimStatusRepliedCount + disasterVictimStatusClosedCount;
-  const disasterVictimStatusToReplyPercentage = parseFloat(((disasterVictimStatusToReplyCount / totalDisasterVictimStatusCount) * 100).toFixed(1));
-  const disasterVictimStatusRepliedPercentage = parseFloat(((disasterVictimStatusRepliedCount / totalDisasterVictimStatusCount) * 100).toFixed(1));
-  const disasterVictimStatusClosedPercentage = parseFloat(((disasterVictimStatusClosedCount / totalDisasterVictimStatusCount) * 100).toFixed(1));
-  
+  const [
+    disasterVictimStatusToReplyCount,
+    setDisasterVictimStatusToReplyCount,
+  ] = useState<number>(0);
+  const [
+    disasterVictimStatusRepliedCount,
+    setDisasterVictimStatusRepliedCount,
+  ] = useState<number>(0);
+  const [disasterVictimStatusClosedCount, setDisasterVictimStatusClosedCount] =
+    useState<number>(0);
+  const totalDisasterVictimStatusCount =
+    disasterVictimStatusToReplyCount +
+    disasterVictimStatusRepliedCount +
+    disasterVictimStatusClosedCount;
+  const disasterVictimStatusToReplyPercentage = parseFloat(
+    (
+      (disasterVictimStatusToReplyCount / totalDisasterVictimStatusCount) *
+      100
+    ).toFixed(1)
+  );
+  const disasterVictimStatusRepliedPercentage = parseFloat(
+    (
+      (disasterVictimStatusRepliedCount / totalDisasterVictimStatusCount) *
+      100
+    ).toFixed(1)
+  );
+  const disasterVictimStatusClosedPercentage = parseFloat(
+    (
+      (disasterVictimStatusClosedCount / totalDisasterVictimStatusCount) *
+      100
+    ).toFixed(1)
+  );
+
   // System User Count
   const [disasterOfficerCount, setDisasterOfficerCount] = useState<number>(0);
   const [publicUserCount, setPublicUserCount] = useState<number>(0);
 
+  // Donations
+  const [monetaryDonations, setMonetaryDonations] = useState<number>(0);
 
-    // fetch the number of requests for each status
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/disaster/dashboard");
-        // setVictimStats(response.data);
-        console.log(response.data);
-        setDisasterVictimStatusToReplyCount(response.data.disasterVictimStatusToReplyCount);
-        setDisasterVictimStatusRepliedCount(response.data.disasterVictimStatusRepliedCount);
-        setDisasterVictimStatusClosedCount(response.data.disasterVictimStatusClosedCount);
-        setDisasterOfficerCount(response.data.disasterOfficerCount);
-        setPublicUserCount(response.data.publicUserCount);
-      } catch (error) {
-        console.error("Error fetching victim stats:", error);
-      }
-    };
-  
-    // fetch the number of requests for each status on page load
-    useEffect(() => {
-      fetchData();
-    }, []);
+  const [suppliesDonationsWater, setSuppliesDonationsWater] =
+    useState<number>(0);
+  const [suppliesDonationsFood, setSuppliesDonationsFood] = useState<number>(0);
+  const [
+    suppliesDonationsMedicalSupplies,
+    setSuppliesDonationsMedicalSupplies,
+  ] = useState<number>(0);
+  const [suppliesDonationsClothing, setSuppliesDonationsClothing] =
+    useState<number>(0);
+  const [suppliesDonationsOther, setSuppliesDonationsOther] =
+    useState<number>(0);
 
+  // fetch the number of requests for each status
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/disaster/dashboard"
+      );
+      // setVictimStats(response.data);
+      console.log(response.data);
+      setDisasterVictimStatusToReplyCount(
+        response.data.disasterVictimStatusToReplyCount
+      );
+      setDisasterVictimStatusRepliedCount(
+        response.data.disasterVictimStatusRepliedCount
+      );
+      setDisasterVictimStatusClosedCount(
+        response.data.disasterVictimStatusClosedCount
+      );
+      setDisasterOfficerCount(response.data.disasterOfficerCount);
+      setPublicUserCount(response.data.publicUserCount);
+      setMonetaryDonations(response.data.monetaryDonations);
+      setSuppliesDonationsWater(response.data.suppliesDonationsWater);
+      setSuppliesDonationsFood(response.data.suppliesDonationsFood);
+      setSuppliesDonationsMedicalSupplies(
+        response.data.suppliesDonationsMedicalSupplies
+      );
+      setSuppliesDonationsClothing(response.data.suppliesDonationsClothing);
+      setSuppliesDonationsOther(response.data.suppliesDonationsOther);
+    } catch (error) {
+      console.error("Error fetching victim stats:", error);
+    }
+  };
+
+  // fetch the number of requests for each status on page load
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <div className="px-[50px] md:px-[100px] flex h-4/5 w-full gap-20 mb-5">
@@ -147,9 +192,18 @@ export default function Admin() {
           <div className="text-black flex flex-col bg-[#FFF9F0] w-1/2 items-center justify-center h-full rounded-2xl">
             <h4 className="text-lg mt-[10px]">Disaster Victims Status</h4>
             <div className="flex w-full gap-5 px-10 h-full my-5 justify-between">
-              <RequestCard percentage={disasterVictimStatusToReplyPercentage} messageCount={disasterVictimStatusToReplyCount} />
-              <RequestCard percentage={disasterVictimStatusRepliedPercentage} messageCount={disasterVictimStatusRepliedCount} />
-              <RequestCard percentage={disasterVictimStatusClosedPercentage} messageCount={disasterVictimStatusClosedCount} />
+              <RequestCard
+                percentage={disasterVictimStatusToReplyPercentage}
+                messageCount={disasterVictimStatusToReplyCount}
+              />
+              <RequestCard
+                percentage={disasterVictimStatusRepliedPercentage}
+                messageCount={disasterVictimStatusRepliedCount}
+              />
+              <RequestCard
+                percentage={disasterVictimStatusClosedPercentage}
+                messageCount={disasterVictimStatusClosedCount}
+              />
             </div>
           </div>
 
@@ -168,7 +222,9 @@ export default function Admin() {
                   <Users className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{disasterOfficerCount}</div>
+                  <div className="text-2xl font-bold">
+                    {disasterOfficerCount}
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     Through web app
                   </p>
@@ -201,77 +257,81 @@ export default function Admin() {
         </div>
       </div>
 
-      <div className="w-1/3 h-full flex flex-col gap-14 mb-10">
+      <div className="w-1/3 h-full flex flex-col gap-10 mb-10">
         <div className="text-black flex flex-col bg-[#FFF9F0] w-full items-center justify-center rounded-2xl">
           <RecordChart />
         </div>
 
-        <div className="w-full bg-white h-full rounded-2xl p-5">
+        <div className="w-full bg-[#FFF9F0] h-full rounded-2xl p-5 pb-2">
           <div className="w-full h-[5%] flex justify-center items-center pb-2">
-            <p className="text-lg font-bold">Disaster Updates</p>
+            <p className="text-xl pb-2 font-bold">Donation Summary</p>
           </div>
 
-          <div className="w-full h-[95%] px-5 flex flex-col border-2 rounded-2xl border-gray-300">
-            <div className="w-full flex flex-row items-center py-3 pl-2 gap-5">
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="User Reports" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">User Reports</SelectItem>
-                  <SelectItem value="dark">User Reports</SelectItem>
-                  <SelectItem value="system">User Reports</SelectItem>
-                </SelectContent>
-              </Select>
+          <div className="w-full h-[95%] px-5 flex flex-col border-2 rounded-2xl  bg-slate-100 drop-shadow-lg">
+            <div className="w-full flex flex-row items-center pl-2">
+              <div className="flex w-full flex-col">
+                {/* Monetary Donations Card */}
+                <div className="w-full">
+                  <h4 className="text-lg pt-2 font-bold">Monetary Donations</h4>
+                  <div>
+                    <div className="text-xl font-bold">
+                      Rs.{" "}
+                      {monetaryDonations.toLocaleString("en-IN", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Received in total
+                    </p>
+                  </div>
+                </div>
 
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Last Week" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Last Week</SelectItem>
-                  <SelectItem value="dark">Last Week</SelectItem>
-                  <SelectItem value="system">Last Week</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="w-full h-[230px] overflow-y-auto">
-              <Table>
-                <TableHeader className="bg-slate-300">
-                  <TableRow>
-                    <TableHead className="w-1/5 text-gray-950 font-bold text-[15px]">
-                      Type
-                    </TableHead>
-                    <TableHead className="w-2/5 text-gray-950 font-bold text-[15px]">
-                      Latitude
-                    </TableHead>
-                    <TableHead className="w-2/5 text-gray-950 font-bold text-[15px]">
-                      Longitude
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {/* gettin data from the locationTableData */}
-                  {locationTableData.map((data, index) => (
-                    <TableRow
-                      key={index}
-                      // highlight the row based on the type
-                      className={
-                        data.type === "Flood"
-                          ? "bg-[#C4CDFD]"
-                          : data.type === "LandSlide"
-                          ? "bg-[#DAC8FF]"
-                          : "bg-[#C7FFD8]"
-                      }
-                    >
-                      <TableCell className="font-bold">{data.type}</TableCell>
-                      <TableCell>{data.lat}</TableCell>
-                      <TableCell>{data.lng}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                {/* Supply Donations Card */}
+                <div className="w-full pt-2">
+                  <h4 className="text-lg font-bold">Supply Donations</h4>
+                  <Table className="w-full">
+                    <TableHeader className="w-full">
+                      <TableRow className="w-full">
+                        <TableHead className="w-2/4">Supply Type</TableHead>
+                        <TableHead className="w-1/4">Quantity</TableHead>
+                        <TableHead className="w-1/4">Unit Type</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">Water</TableCell>
+                        <TableCell>{suppliesDonationsWater}</TableCell>
+                        <TableCell>5 litre bottles</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Food</TableCell>
+                        <TableCell>{suppliesDonationsFood}</TableCell>
+                        <TableCell>Units</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          Medical Supplies
+                        </TableCell>
+                        <TableCell>
+                          {suppliesDonationsMedicalSupplies}
+                        </TableCell>
+                        <TableCell>Units</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Clothing</TableCell>
+                        <TableCell>{suppliesDonationsClothing}</TableCell>
+                        <TableCell>Units</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium">Other</TableCell>
+                        <TableCell>{suppliesDonationsOther}</TableCell>
+                        <TableCell>Units</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
